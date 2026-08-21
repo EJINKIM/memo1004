@@ -1,802 +1,268 @@
-<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>TL린칸(TL-Lincoln, 티엘린칸)사용하기</title><style>
-/* cspell:disable-file */
-/* webkit printing magic: print all background colors */
-html {
-	-webkit-print-color-adjust: exact;
-}
-* {
-	box-sizing: border-box;
-	-webkit-print-color-adjust: exact;
-}
-
-html,
-body {
-	margin: 0;
-	padding: 0;
-}
-@media only screen {
-	body {
-		margin: 2em auto;
-		max-width: 900px;
-		color: rgb(55, 53, 47);
-	}
-}
-
-body {
-	line-height: 1.5;
-	white-space: pre-wrap;
-}
-
-a,
-a.visited {
-	color: inherit;
-	text-decoration: underline;
-}
-
-.pdf-relative-link-path {
-	font-size: 80%;
-	color: #444;
-}
-
-h1,
-h2,
-h3 {
-	letter-spacing: -0.01em;
-	line-height: 1.2;
-	font-weight: 600;
-	margin-bottom: 0;
-}
-
-/* Override strong tags inside headings to maintain consistent weight */
-h1 strong,
-h2 strong,
-h3 strong {
-	font-weight: 600;
-}
-
-.page-title {
-	font-size: 2.5rem;
-	font-weight: 700;
-	margin-top: 0;
-	margin-bottom: 0.75em;
-}
-
-h1 {
-	font-size: 1.875rem;
-	margin-top: 1.875rem;
-}
-
-h2 {
-	font-size: 1.5rem;
-	margin-top: 1.5rem;
-}
-
-h3 {
-	font-size: 1.25rem;
-	margin-top: 1.25rem;
-}
-
-.source {
-	border: 1px solid #ddd;
-	border-radius: 3px;
-	padding: 1.5em;
-	word-break: break-all;
-}
-
-.callout {
-	border-radius: 10px;
-	padding: 1rem;
-}
-
-/* For default-background callouts, render the border outline. */
-.callout.block-color-default_background {
-	border: 1px solid rgba(55, 53, 47, 0.09);
-}
-
-figure {
-	margin: 1.25em 0;
-	page-break-inside: avoid;
-}
-
-/*
- * Toggles and callouts hold arbitrary content, so they can easily be taller
- * than a page. They must stay breakable: avoiding breaks inside them makes
- * Chromium push the whole block onto the next page, which leaves the previous
- * page mostly empty before every long toggle.
- */
-details,
-aside {
-	margin: 1.25em 0;
-}
-
-/* Keep a toggle's title on the same page as the start of its content. */
-summary {
-	page-break-after: avoid;
-	break-after: avoid;
-}
-
-/*
- * Toggle headings render as <h1/h2/h3 style="display:inline-block"> inside
- * <summary>. Without this reset, the heading's margin-top pushes it below the
- * ::marker (▼), so the triangle and the title appear on separate lines.
- */
-summary h1,
-summary h2,
-summary h3,
-summary h4 {
-	margin-top: 0;
-}
-
-figcaption {
-	opacity: 0.5;
-	font-size: 85%;
-	margin-top: 0.5em;
-}
-
-mark {
-	background-color: transparent;
-}
-
-.indented {
-	padding-left: 1.5em;
-}
-
-hr {
-	background: transparent;
-	display: block;
-	width: 100%;
-	height: 1px;
-	visibility: visible;
-	border: none;
-	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
-}
-
-img {
-	max-width: 100%;
-}
-
-@media only print {
-	img {
-		max-height: 100vh;
-		object-fit: contain;
-	}
-
-	table.collection-content {
-		width: 100%;
-		table-layout: fixed;
-	}
-
-	table.collection-content th,
-	table.collection-content td {
-		overflow-wrap: anywhere;
-	}
-
-	table.collection-content td > .user,
-	table.collection-content td > time {
-		white-space: pre-wrap;
-	}
-}
-
-@page {
-	margin: 1in;
-}
-
-.collection-content-wrapper {
-	overflow-x: auto;
-}
-
-@media only print {
-	.collection-content-wrapper {
-		overflow-x: visible;
-	}
-}
-
-.collection-content {
-	font-size: 0.875rem;
-}
-
-.collection-content td {
-	white-space: pre-wrap;
-	word-break: break-word;
-}
-
-.column-list {
-	display: flex;
-	gap: 46px;
-}
-
-.column {
-	min-width: 0;
-	overflow: hidden;
-}
-
-.column > *:first-child {
-	margin-top: 0;
-}
-
-.table_of_contents-item {
-	display: block;
-	font-size: 0.875rem;
-	line-height: 1.3;
-	padding-inline: 0.125rem;
-	padding-block: 0.375rem;
-}
-
-.table_of_contents-indent-1 {
-	margin-left: 1.5rem;
-}
-
-.table_of_contents-indent-2 {
-	margin-left: 3rem;
-}
-
-.table_of_contents-indent-3 {
-	margin-left: 4.5rem;
-}
-
-.table_of_contents-link {
-	text-decoration: none;
-	opacity: 0.7;
-	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
-}
-
-table,
-th,
-td {
-	border: 1px solid rgba(55, 53, 47, 0.09);
-}
-
-table {
-	border-collapse: collapse;
-	border-left: none;
-	border-right: none;
-}
-
-th,
-td {
-	font-weight: normal;
-	padding: 0.25em 0.5em;
-	line-height: 1.5;
-	min-height: 1.5em;
-	text-align: left;
-}
-
-th {
-	color: rgba(55, 53, 47, 0.6);
-}
-
-ol,
-ul {
-	margin: 0;
-	margin-block-start: 0.6em;
-	margin-block-end: 0.6em;
-}
-
-li > ol:first-child,
-li > ul:first-child {
-	margin-block-start: 0.6em;
-}
-
-ul > li {
-	list-style: disc;
-}
-
-ul.to-do-list {
-	padding-inline-start: 0;
-}
-
-ul.to-do-list > li {
-	list-style: none;
-}
-
-.to-do-children-checked {
-	text-decoration: line-through;
-	opacity: 0.375;
-}
-
-ul.toggle > li {
-	list-style: none;
-}
-
-ul {
-	padding-inline-start: 1.7em;
-}
-
-ul > li {
-	padding-left: 0.1em;
-}
-
-ol {
-	padding-inline-start: 1.6em;
-}
-
-ol.numbered-list.numbered-list-digits-2 {
-	padding-inline-start: 2em;
-}
-
-ol.numbered-list.numbered-list-digits-3plus {
-	padding-inline-start: 2.4em;
-}
-
-ol > li {
-	padding-left: 0.2em;
-}
-
-.mono ol {
-	padding-inline-start: 2em;
-}
-
-.mono ol > li {
-	text-indent: -0.4em;
-}
-
-.toggle {
-	padding-inline-start: 0em;
-	list-style-type: none;
-}
-
-/* Indent toggle children */
-.toggle > li > details {
-	padding-left: 1.7em;
-}
-
-.toggle > li > details > summary {
-	margin-left: -1.1em;
-}
-
-.selected-value {
-	display: inline-block;
-	padding: 0 0.5em;
-	background: rgba(206, 205, 202, 0.5);
-	border-radius: 3px;
-	margin-right: 0.5em;
-	margin-top: 0.3em;
-	margin-bottom: 0.3em;
-	white-space: nowrap;
-}
-
-.collection-title {
-	display: inline-block;
-	margin-right: 1em;
-}
-
-.page-description {
-	margin-bottom: 2em;
-}
-
-.simple-table {
-	margin-top: 1em;
-	font-size: 0.875rem;
-	empty-cells: show;
-}
-.simple-table td {
-	height: 29px;
-	min-width: 120px;
-}
-
-.simple-table th {
-	height: 29px;
-	min-width: 120px;
-}
-
-.simple-table-header-color {
-	background: rgb(247, 246, 243);
-	color: black;
-}
-.simple-table-header {
-	font-weight: 500;
-}
-
-time {
-	opacity: 0.5;
-}
-
-.icon {
-	display: inline-flex;
-	align-items: center;
-	justify-content: center;
-	max-width: 1.2em;
-	max-height: 1.2em;
-	text-decoration: none;
-	vertical-align: text-bottom;
-	margin-right: 0.5em;
-}
-
-/*
- * Render emoji icons using a ::before pseudo-element to keep the glyph
- * out of the DOM textContent traversal. This avoids double-rendering icons
- * in callouts and page titles.
- * NOTE(slim/html-export-pseudo-icons): I can't tagref this because it will
- * flag as a duplicate tag after codegen.
- */
-.icon[data-emoji]::before {
-	content: attr(data-emoji);
-}
-
-img.icon {
-	border-radius: 3px;
-}
-
-.callout img.notion-static-icon {
-	width: 1em;
-	height: 1em;
-}
-
-.callout p {
-	margin: 0;
-}
-
-.callout h1,
-.callout h2,
-.callout h3 {
-	margin: 0 0 0.6rem;
-}
-
-.user-icon {
-	width: 1.5em;
-	height: 1.5em;
-	border-radius: 100%;
-	margin-right: 0.5rem;
-}
-
-.user-icon-inner {
-	font-size: 0.8em;
-}
-
-.text-icon {
-	border: 1px solid #000;
-	text-align: center;
-}
-
-.page-cover-image {
-	display: block;
-	object-fit: cover;
-	width: 100%;
-	max-height: 30vh;
-}
-
-.page-header-icon {
-	font-size: 3rem;
-	margin-bottom: 1rem;
-}
-
-.page-header-icon-with-cover {
-	margin-top: -0.72em;
-	margin-left: 0.07em;
-}
-
-.page-header-icon img {
-	border-radius: 3px;
-}
-
-.link-to-page {
-	margin: 1em 0;
-	padding: 0;
-	border: none;
-	font-weight: 500;
-}
-
-p > .user {
-	opacity: 0.5;
-}
-
-td > .user,
-td > time {
-	white-space: nowrap;
-}
-
-input[type="checkbox"] {
-	margin-right: 0.4em;
-	vertical-align: middle;
-}
-
-p {
-	margin-top: 0.5em;
-	margin-bottom: 0.5em;
-}
-
-.image {
-	border: none;
-	margin: 1.5em 0;
-	padding: 0;
-	border-radius: 0;
-	text-align: center;
-}
-
-.code,
-code {
-	background: rgba(135, 131, 120, 0.15);
-	border-radius: 3px;
-	padding: 0.2em 0.4em;
-	border-radius: 3px;
-	font-size: 85%;
-	tab-size: 2;
-}
-
-code {
-	color: #eb5757;
-}
-
-.code {
-	padding: 1.5em 1em;
-}
-
-.code-wrap {
-	white-space: pre-wrap;
-	word-break: break-all;
-}
-
-.code > code {
-	background: none;
-	padding: 0;
-	font-size: 100%;
-	color: inherit;
-}
-
-blockquote {
-	font-size: 1em;
-	margin: 1em 0;
-	padding-left: 1em;
-	border-left: 3px solid rgb(55, 53, 47);
-}
-
-blockquote.quote-large {
-	font-size: 1.25em;
-}
-
-.bookmark {
-	text-decoration: none;
-	max-height: 8em;
-	padding: 0;
-	display: flex;
-	width: 100%;
-	align-items: stretch;
-}
-
-.bookmark-title {
-	font-size: 0.85em;
-	overflow: hidden;
-	text-overflow: ellipsis;
-	height: 1.75em;
-	white-space: nowrap;
-}
-
-.bookmark-text {
-	display: flex;
-	flex-direction: column;
-}
-
-.bookmark-info {
-	flex: 4 1 180px;
-	padding: 12px 14px 14px;
-	display: flex;
-	flex-direction: column;
-	justify-content: space-between;
-}
-
-.bookmark-image {
-	width: 33%;
-	flex: 1 1 180px;
-	display: block;
-	position: relative;
-	object-fit: cover;
-	border-radius: 1px;
-}
-
-.bookmark-description {
-	color: rgba(55, 53, 47, 0.6);
-	font-size: 0.75em;
-	overflow: hidden;
-	max-height: 4.5em;
-	word-break: break-word;
-}
-
-.bookmark-href {
-	font-size: 0.75em;
-	margin-top: 0.25em;
-}
-
-.tab {
-	margin: 1.25em 0;
-	padding-inline: 1rem;
-	border: 1px solid rgba(55, 53, 47, 0.09);
-}
-
-.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
-.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
-.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
-.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
-.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
-.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
-.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
-.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
-.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
-.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
-.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
-.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
-.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
-.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
-.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
-.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
-.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
-.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
-.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
-.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
-.highlight-default {
-	color: rgba(44, 44, 43, 1);
-}
-.highlight-gray {
-	color: rgba(125, 122, 117, 1);
-	fill: rgba(125, 122, 117, 1);
-}
-.highlight-brown {
-	color: rgba(159, 118, 90, 1);
-	fill: rgba(159, 118, 90, 1);
-}
-.highlight-orange {
-	color: rgba(210, 123, 45, 1);
-	fill: rgba(210, 123, 45, 1);
-}
-.highlight-yellow {
-	color: rgba(203, 148, 52, 1);
-	fill: rgba(203, 148, 52, 1);
-}
-.highlight-teal {
-	color: rgba(80, 148, 110, 1);
-	fill: rgba(80, 148, 110, 1);
-}
-.highlight-blue {
-	color: rgba(56, 125, 201, 1);
-	fill: rgba(56, 125, 201, 1);
-}
-.highlight-purple {
-	color: rgba(154, 107, 180, 1);
-	fill: rgba(154, 107, 180, 1);
-}
-.highlight-pink {
-	color: rgba(193, 76, 138, 1);
-	fill: rgba(193, 76, 138, 1);
-}
-.highlight-red {
-	color: rgba(207, 81, 72, 1);
-	fill: rgba(207, 81, 72, 1);
-}
-.highlight-default_background {
-	color: rgba(44, 44, 43, 1);
-}
-.highlight-gray_background {
-	background: rgba(42, 28, 0, 0.07);
-}
-.highlight-brown_background {
-	background: rgba(139, 46, 0, 0.086);
-}
-.highlight-orange_background {
-	background: rgba(224, 101, 1, 0.129);
-}
-.highlight-yellow_background {
-	background: rgba(211, 168, 0, 0.137);
-}
-.highlight-teal_background {
-	background: rgba(0, 100, 45, 0.09);
-}
-.highlight-blue_background {
-	background: rgba(0, 124, 215, 0.094);
-}
-.highlight-purple_background {
-	background: rgba(102, 0, 178, 0.078);
-}
-.highlight-pink_background {
-	background: rgba(197, 0, 93, 0.086);
-}
-.highlight-red_background {
-	background: rgba(223, 22, 0, 0.094);
-}
-.block-color-default {
-	color: inherit;
-	fill: inherit;
-}
-.block-color-gray {
-	color: rgba(125, 122, 117, 1);
-	fill: rgba(125, 122, 117, 1);
-}
-.block-color-brown {
-	color: rgba(159, 118, 90, 1);
-	fill: rgba(159, 118, 90, 1);
-}
-.block-color-orange {
-	color: rgba(210, 123, 45, 1);
-	fill: rgba(210, 123, 45, 1);
-}
-.block-color-yellow {
-	color: rgba(203, 148, 52, 1);
-	fill: rgba(203, 148, 52, 1);
-}
-.block-color-teal {
-	color: rgba(80, 148, 110, 1);
-	fill: rgba(80, 148, 110, 1);
-}
-.block-color-blue {
-	color: rgba(56, 125, 201, 1);
-	fill: rgba(56, 125, 201, 1);
-}
-.block-color-purple {
-	color: rgba(154, 107, 180, 1);
-	fill: rgba(154, 107, 180, 1);
-}
-.block-color-pink {
-	color: rgba(193, 76, 138, 1);
-	fill: rgba(193, 76, 138, 1);
-}
-.block-color-red {
-	color: rgba(207, 81, 72, 1);
-	fill: rgba(207, 81, 72, 1);
-}
-.block-color-default_background {
-	color: inherit;
-	fill: inherit;
-}
-.block-color-gray_background {
-	background: rgba(240, 239, 237, 1);
-}
-.block-color-brown_background {
-	background: rgba(245, 237, 233, 1);
-}
-.block-color-orange_background {
-	background: rgba(251, 235, 222, 1);
-}
-.block-color-yellow_background {
-	background: rgba(249, 243, 220, 1);
-}
-.block-color-teal_background {
-	background: rgba(232, 241, 236, 1);
-}
-.block-color-blue_background {
-	background: rgba(229, 242, 252, 1);
-}
-.block-color-purple_background {
-	background: rgba(243, 235, 249, 1);
-}
-.block-color-pink_background {
-	background: rgba(250, 233, 241, 1);
-}
-.block-color-red_background {
-	background: rgba(252, 233, 231, 1);
-}
-.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
-.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
-.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
-.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
-.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
-.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
-.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
-.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
-.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
-.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
-
-.checkbox {
-	display: inline-flex;
-	vertical-align: text-bottom;
-	width: 16;
-	height: 16;
-	background-size: 16px;
-	margin-left: 2px;
-	margin-right: 5px;
-}
-
-.checkbox-on {
-	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
-}
-
-.checkbox-off {
-	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
-}
-	
-</style><style>@import url('https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/katex-swap.min.css')</style></head><body><article id="3c324a0b-e08b-8040-b10b-f8e1ab8ef0fb" class="page sans"><header><h1 class="page-title" dir="auto"><strong>TL린칸(TL-Lincoln, 티엘린칸)사용하기</strong></h1><p class="page-description" dir="auto"></p></header><div class="page-body"><hr id="3c324a0b-e08b-80bb-b5bd-d9b24dc2561c" dir="auto"/><p id="3c324a0b-e08b-8007-9079-d2ca1ffa79aa" class="" dir="auto">TL린칸은 호텔 예약 관련 매니저의 한 프로그램이다.</p><p id="3c324a0b-e08b-8034-845d-f40b2908dc54" class="" dir="auto">아고다·익스피디아·야놀자·부킹닷컴같은 OTA 예약을 한 화면에서 통합 관리해 주는 시스템 중 하나이다.</p><p id="3c324a0b-e08b-8008-80b2-eb96505c9b5e" class="" dir="auto">TL린칸 자체가 객실을 파는 곳이 아님.</p><p id="3c324a0b-e08b-8009-b379-c1e6293ed993" class="" dir="auto">
-</p><p id="3c324a0b-e08b-8063-815f-dab7eccfd485" class="block-color-purple_background" data-notion-highlight="purple_background" dir="auto">TL린칸은 여러 온라인 여행사의 예약을 일괄 관리하고, OTA에 객실 재고와 요금을 동기화하는 시스템이다.<br/> - <strong>OTA</strong>는 고객님이 실제로 들어가서 호텔을 검색하고 예약하는 <strong>판매처</strong>. <br/>- <strong>TL린칸(TL-Lincoln)</strong>은 여러 OTA에서 들어오는 예약과 객실 재고·요금을 한곳에서 관리하는 <strong>채널매니저</strong>.<br/>  </p><p id="3c324a0b-e08b-80c0-bf84-d5ca3aa0466d" class="block-color-brown_background" data-notion-highlight="brown_background" dir="auto"><strong>   호텔 ← TL린칸 ← 여러 OTA ← 고객</strong></p><table id="3c324a0b-e08b-807a-aecb-c20a1b652cc6" class="simple-table" dir="ltr"><thead class="simple-table-header"><tr id="3c324a0b-e08b-8038-8356-f0be58acf9f7" dir="ltr"><th id="qFAG" class="simple-table-header-color simple-table-header" style="width:122.65625px">구분</th><th id="tiJ}" class="simple-table-header-color simple-table-header" style="width:235.66666666666666px">OTA</th><th id=":^Qa" class="simple-table-header-color simple-table-header" style="width:235.66666666666666px">쉽게 기억하기</th></tr></thead><tbody><tr id="3c324a0b-e08b-8011-91b6-cb2f8342958f" dir="ltr"><td id="qFAG" class="" style="width:122.65625px">🇰🇷 국내</td><td id="tiJ}" class="" style="width:235.66666666666666px"><strong>야놀자 (Yanolja)</strong></td><td id=":^Qa" class="" style="width:235.66666666666666px">국내 대표 숙박 예약 플랫폼</td></tr><tr id="3c324a0b-e08b-80ec-89fd-dc9b097fff6b" dir="ltr"><td id="qFAG" class="" style="width:122.65625px">🇰🇷 국내</td><td id="tiJ}" class="" style="width:235.66666666666666px"><strong>여기어때 (Yeogi Eottae)</strong></td><td id=":^Qa" class="" style="width:235.66666666666666px">국내 호텔·펜션·숙소 예약</td></tr><tr id="3c324a0b-e08b-800a-875e-e5348cb58851" dir="ltr"><td id="qFAG" class="" style="width:122.65625px">🇰🇷 국내</td><td id="tiJ}" class="" style="width:235.66666666666666px"><strong>마이리얼트립</strong></td><td id=":^Qa" class="" style="width:235.66666666666666px">여행·호텔·투어 예약</td></tr><tr id="3c324a0b-e08b-80c8-bc57-da6a9d7ebe67" dir="ltr"><td id="qFAG" class="" style="width:122.65625px">🌍 해외</td><td id="tiJ}" class="" style="width:235.66666666666666px"><strong>Agoda 아고다</strong></td><td id=":^Qa" class="" style="width:235.66666666666666px">아시아권에서 매우 많이 사용</td></tr><tr id="3c324a0b-e08b-800d-b138-f00bc9b10d39" dir="ltr"><td id="qFAG" class="" style="width:122.65625px">🌍 해외</td><td id="tiJ}" class="" style="width:235.66666666666666px"><strong>Booking.com 부킹닷컴</strong></td><td id=":^Qa" class="" style="width:235.66666666666666px">세계적으로 큰 호텔 예약 플랫폼</td></tr><tr id="3c324a0b-e08b-8073-920a-deb1e4eb5aed" dir="ltr"><td id="qFAG" class="" style="width:122.65625px">🌍 해외</td><td id="tiJ}" class="" style="width:235.66666666666666px"><strong>Expedia 익스피디아</strong></td><td id=":^Qa" class="" style="width:235.66666666666666px">호텔·항공·패키지</td></tr><tr id="3c324a0b-e08b-808f-984e-c79e6ca83ba3" dir="ltr"><td id="qFAG" class="" style="width:122.65625px">🌍 해외</td><td id="tiJ}" class="" style="width:235.66666666666666px"><strong>Trip.com 트립닷컴</strong></td><td id=":^Qa" class="" style="width:235.66666666666666px">중국계 글로벌 OTA, 한국에서도 많이 사용</td></tr><tr id="3c324a0b-e08b-80e2-86ea-c345f3520669" dir="ltr"><td id="qFAG" class="" style="width:122.65625px">🌍 해외</td><td id="tiJ}" class="" style="width:235.66666666666666px"><strong>Hotels.com 호텔스닷컴</strong></td><td id=":^Qa" class="" style="width:235.66666666666666px">호텔 중심 예약</td></tr><tr id="3c324a0b-e08b-8027-ad4e-e44b97750e5f" dir="ltr"><td id="qFAG" class="" style="width:122.65625px">🌍 해외</td><td id="tiJ}" class="" style="width:235.66666666666666px"><strong>Airbnb 에어비앤비</strong></td><td id=":^Qa" class="" style="width:235.66666666666666px">호텔보다는 숙소·펜션·개인 숙박 중심</td></tr></tbody></table><p id="3c324a0b-e08b-80f6-abcd-d43f69d424ce" class="" dir="auto">예를 들면 고객이 <strong>아고다</strong>에서 예약하면 → 그 예약 정보가 <strong>TL린칸</strong>으로 들어오고 → 호텔 직원이 TL린칸에서 </p><p id="3c324a0b-e08b-80ae-8de1-c6c895369626" class="" dir="auto">예약을 확인하는 식임.</p><p id="3c324a0b-e08b-807c-b6cc-c4d8280783ab" class="" dir="auto">아고다·익스피디아 같은 OTA채널들이 객실을 팔아주는 영업사원같은 역할을 하고, TL린칸은 그 예약·재고·요금을 한 곳에서 정리해 주는 TOOL임. (예약을 정리해서 보여주는 역할)</p><p id="3c324a0b-e08b-80c0-8054-d15be0749290" class="block-color-pink" data-notion-highlight="pink" dir="auto"><strong><span style="border-bottom:0.05em solid">TL린칸에서 하드블럭 상세여부를 반드시 확인한다.</span></strong></p><p id="3c324a0b-e08b-80e6-a620-f3faaadffc3f" class="" dir="auto">TL린칸에 표시된 예약 정보를 보면서</p><ul id="3c324a0b-e08b-8022-bd13-d0e5a0bfecbb" class="bulleted-list" dir="auto"><li style="list-style-type:disc">예약 OTA</li></ul><ul id="3c324a0b-e08b-8089-ba75-d67a6033f188" class="bulleted-list" dir="auto"><li style="list-style-type:disc">예약 상품</li></ul><div data-notion-highlight="orange" dir="auto"><ul id="3c324a0b-e08b-8052-96a3-deb25931b1db" class="block-color-orange bulleted-list" data-notion-highlight="orange"><li style="list-style-type:disc">조식 포함 여부(특히중요)</li></ul></div><ul id="3c324a0b-e08b-8078-9d5d-daaec270f5be" class="bulleted-list" dir="auto"><li style="list-style-type:disc">하드블럭 표시 여부</li></ul><p id="3c324a0b-e08b-807f-be23-eaab22afab41" class="" dir="auto">등을 확인한다.</p><p id="3c324a0b-e08b-80c9-b2c8-fdfd62ae9efd" class="" dir="auto">단, <strong>TL린칸에 표시된 정보만 보고 최종 판단하면 안 된다.</strong></p><hr id="3c324a0b-e08b-80da-8440-ff3ee5b49965" dir="auto"/><h1 id="3c324a0b-e08b-8027-ad78-dba2d84b6a10" class="" dir="auto"><strong>야놀자</strong>→<strong>아고다 등 OTA 유통·채널별<br/></strong> <strong>[조식 포함]고객 정보 오기재 방지위해</strong> ‘조식포함’ 여부 교차 검토하기</h1><ol type="1" id="3c324a0b-e08b-807a-841f-cd149871d629" class="numbered-list" start="1" dir="auto"><li><strong>TL린칸 1차 확인</strong> — 예약 경로·날짜·BREAKFAST 표기여부·객실수·요금 정상 여부</li></ol><div data-notion-highlight="red" dir="auto"><ol type="1" id="3c324a0b-e08b-80bc-829e-e8e5dfd3fae9" class="block-color-red numbered-list" data-notion-highlight="red" start="2"><li><strong>원본 채널 교차 확인(핵심) — 네이버 이메일 로그인후 ‘하드’라고 검색해서 해당 [예약환료 메일]확인해서 교차확인</strong></li></ol></div><div data-notion-highlight="red" dir="auto"><ol type="1" id="3c324a0b-e08b-80c8-9ee6-e08a45a6cc20" class="block-color-red numbered-list" data-notion-highlight="red" start="3"><li><strong>OTA 예약 플랙폼에서 원본 재확인(EX. 야놀자)</strong></li></ol></div><ol type="1" id="3c324a0b-e08b-80c9-8e0a-f7723ea3bc81" class="numbered-list" start="4" dir="auto"><li><strong>조식 포함 여부 최종 확정</strong> — 정보 충돌 시, 고객에게 우선 문의 후 최종 확정안 예약시트에 기재</li></ol><ol type="1" id="3c324a0b-e08b-800a-b182-d26517baf825" class="numbered-list" start="5" dir="auto"><li><strong>프런트 인수인계· 전달</strong> — 미확인 건 혹은 해당 변경사항은 다음 시프트에 프런트 담당자에게 인계 및 구두 전달</li></ol><aside class="block-color-pink_background callout" data-notion-callout="" data-notion-callout-icon="⚠️" data-notion-callout-background="pink_background" style="white-space:pre-wrap;display:flex" id="b9aba820-f23e-454b-9fe1-63faf6581409" dir="ltr"><div style="font-size:1.5em"><span class="icon" data-emoji="⚠️"></span></div><div style="width:100%"><p id="9331002d-4115-4aca-92b2-d69a02a095cb" class="" dir="auto">가장 중요한 것 2<strong>~3번</strong>.<br/> 아고다의 물량을 야놀자에서 재유통되면 조식 정보가 누락되거나 오기재 될 수 있어, TL린칸만 보지 말고 원본의 예약저와 발신처(네이버이메일로 수동 체크와), 고객에게 반드시 다시 확인해야함.</p></div></aside><aside class="block-color-pink_background callout" data-notion-callout="" data-notion-callout-icon="⚠️" data-notion-callout-background="pink_background" style="white-space:pre-wrap;display:flex" id="9c2d0793-1ea2-419b-b14e-1d7f56709c70" dir="ltr"><div style="font-size:1.5em"><span class="icon" data-emoji="⚠️"></span></div><div style="width:100%"><p id="bb01b676-98ad-44f5-b834-9a5bfdcef18a" class="" dir="auto">고객확인!</p><p id="3c324a0b-e08b-802f-9a85-df8972d20781" class="" dir="auto">“고객님~ 조식 포함 패키지로 예약이 진행되어 있으신데 맞으실까요?”</p></div></aside><p id="3c324a0b-e08b-8002-940d-e3a91ff543d1" class="block-color-red" data-notion-highlight="red" dir="auto"><strong><span style="border-bottom:0.05em solid">즉, 예약이 들어온 OTA 이름 = 실제 상품의 원판매처 라고 단순하게 생각하면 안 됨! 주의!</span></strong></p><p id="3c324a0b-e08b-8017-8d4a-f16fa3fc9d97" class="" dir="auto">
-</p><hr id="3c324a0b-e08b-80ce-a513-daffbd5026c3" dir="auto"/><hr id="3c324a0b-e08b-8071-83e0-f34f5a24303f" dir="auto"/><h1 id="3c324a0b-e08b-80fe-a904-d7ba341b200b" class="" dir="auto">하드블럭 예약 확인 업무 정리</h1><h2 id="3c324a0b-e08b-8003-bee2-c803fbe343a2" class="" dir="auto">1. 하드블럭이란?</h2><p id="3c324a0b-e08b-80fa-9779-e395e6dd4ca2" class="" dir="auto"><strong>아고다,익스피디아 등의 OTA예약채널에서 판매한 객실 상품을 야놀자 등과 같은 다른 OTA가 가져가서 다시 판매하는 경우가 있음. </strong>→ 따라서 고객 예약 화면에는 <strong>아고다 예약</strong>으로 보이더라도 실제로는 <strong>야놀자에서 만들어진 조식 포함 상품</strong>일 수 있다.</p><p id="3c324a0b-e08b-8036-844e-cdcacc11b3ea" class="block-color-pink" data-notion-highlight="pink" dir="auto"><strong>토유에서 하드블럭 표시.</strong></p><ul id="3c324a0b-e08b-807f-b395-cf1da9ffc5e7" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>하드블럭 = 조식이 포함된 패키지 예약</strong>이라고 생각하면된다. </li></ul><ul id="3c324a0b-e08b-8054-9505-efbd0b21eeb1" class="bulleted-list" dir="auto"><li style="list-style-type:disc">따라서 예약 확인 시, 객실 예약만 확인하는 것이 아니라 <strong>조식 포함 여부까지 반드시 확인</strong>해야 한다.</li></ul><ul id="3c324a0b-e08b-803f-879d-d39787e89c80" class="bulleted-list" dir="auto"><li style="list-style-type:disc">하드블럭은 일정 객실을 미리 확보하고 확약한 물량이고  있으므로, <strong>우리 호텔에서 사용하는 의미를 기준으로 기억한다.</strong></li></ul><p id="3c324a0b-e08b-8086-bfb8-c3758071fa5c" class="block-color-blue_background" data-notion-highlight="blue_background" dir="auto">하드블럭 쉽게말하면,<br/>보통은 <strong>여행사나 OTA(야놀자·아고다 같은 판매처)</strong>가 호텔과 계약해서 미리 잡아두고, <strong>여행사/OTA가 호텔에 “이 날짜 방 5개는 우리가 판매할 수 있게 미리 빼주세요”라고 하고 확보해두는 것임<br/>호텔 방을 여행사가 미리 찜해두는 것</strong>이에요.</p><p id="3c324a0b-e08b-8035-a04a-c06b82caf4e6" class="" dir="auto">
-</p><hr id="3c324a0b-e08b-80a6-9f86-d122eb183a4f" dir="auto"/><h2 id="3c324a0b-e08b-8049-a4e2-c5b4e64e0b39" class="" dir="auto">2. 예약 확인 시 반드시 체크할 것</h2><p id="3c324a0b-e08b-806a-97da-db2a9a36dc76" class="" dir="auto">하드블럭 예약이 있는지 <strong>매번 별도로 확인한다.</strong></p><p id="3c324a0b-e08b-80de-b4bd-d20f01ed955f" class="" dir="auto">예약을 볼 때는 다음 세 가지를 함께 확인한다.</p><ul id="3c324a0b-e08b-80a4-8fe9-c47900ff271b" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>예약 경로가 어디인지</strong></li></ul><ul id="3c324a0b-e08b-80f6-803d-e642dbd295a3" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>하드블럭 예약인지</strong></li></ul><ul id="3c324a0b-e08b-8015-97d0-d16cfb6845ce" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>조식이 포함되어 있는지</strong></li></ul><p id="3c324a0b-e08b-8086-a4b3-ec997eade58e" class="" dir="auto">특히 예약 화면에 OTA 이름만 보고 판단하지 않는다.</p><h1 id="3c324a0b-e08b-8067-b56e-fda0107a10ff" class="" dir="auto">실무 고객예약 엑셀시트 작성전 예약 확인하기</h1><p id="3c324a0b-e08b-8009-9586-ec13f3c67c0e" class="" dir="auto">예약을 확인할 때 아래 순서대로 본다.</p><h3 id="3c324a0b-e08b-8060-a100-e664e11865f4" class="" dir="auto">① 하드블럭 예약이 있는지 확인</h3><p id="3c324a0b-e08b-805b-a65f-ed0a10a2f253" class="" dir="auto">오늘 또는 해당 날짜의 예약 중 <strong>하드블럭 예약이 있는지 먼저 확인한다.</strong></p><p id="3c324a0b-e08b-809b-b735-e7dd3631d639" class="" dir="auto">↓</p><h3 id="3c324a0b-e08b-8017-b45b-c8d918b8a382" class="" dir="auto">② TL린칸 확인</h3><p id="3c324a0b-e08b-80db-a0e2-d463c944c85b" class="" dir="auto">TL린칸에서 →[예약 관리]버튼 클릭→ 일반 혹은 숙박날짜를 입력 → 예약 구분 확인 후 <span style="border-bottom:0.05em solid">예약번호</span>  클릭</p><p id="3c324a0b-e08b-806e-a027-c0a830455c16" class="" dir="auto"> →[예약 번호]를 클릭하면? 아래 분홍색 표기된 사항을 확인후 일일엑셀시트와 대조하며 입력한다.</p><figure id="3c324a0b-e08b-8021-a741-fb3df9823fb2" class="image" data-notion-image="%EC%A0%80%ED%99%94%EC%A7%88TL%EB%A6%B0%EC%B9%B8.jpg" dir="ltr"><a href="%EC%A0%80%ED%99%94%EC%A7%88TL%EB%A6%B0%EC%B9%B8.jpg"><img style="width:583.984375px" src="%EC%A0%80%ED%99%94%EC%A7%88TL%EB%A6%B0%EC%B9%B8.jpg"/></a></figure><p id="3c324a0b-e08b-8027-86f0-c0755d1f5e65" class="" dir="auto"> </p><p id="3c324a0b-e08b-8001-bebd-d310a2b90ca0" class="" dir="auto"><strong>확인할 순서</strong></p><p id="3c324a0b-e08b-8093-92f3-db737b3d77bf" class="" dir="auto"> 예약 고객이름 → 인원→ 예약 경로→ 투숙일자 및 투숙기간 (몇박몇일)</p><ul id="3c324a0b-e08b-8054-931a-d23b4f17678f" class="bulleted-list" dir="auto"><li style="list-style-type:disc">예약 상품 (예시사진: 프리미어)</li></ul><ul id="3c324a0b-e08b-8029-ac5e-df125340d13e" class="bulleted-list" dir="auto"><li style="list-style-type:disc">조식포함여부는? (Room Only라고 되어있어 조식 불포함. 조식 포함일시 Breakfast라는 표기가 있음.)</li></ul><ul id="3c324a0b-e08b-802d-90ee-dc021f0d08a7" class="bulleted-list" dir="auto"><li style="list-style-type:disc">인원 여부</li></ul><p id="3c324a0b-e08b-804a-ab1b-d2db140927ed" class="" dir="auto">
-</p><h3 id="3c324a0b-e08b-808f-8548-d41608d26f2e" class="" dir="auto">③ 네이버 이메일 확인을 통한 예약정보 교차확인 </h3><p id="3c324a0b-e08b-809e-961f-c7fe4ca164aa" class="" dir="auto">토유 네이버 이메일로그인후 [검색창]에 [’하드’]라고 입력하기</p><p id="3c324a0b-e08b-80bd-ba84-fa9eb85ea769" class="" dir="auto">하드블럭 관련 예약 이메일 또는 원본 예약 내용을 확인후 교차 확인으로 최종 예약 정보 확인.</p><p id="3c324a0b-e08b-8016-a14c-cb4fc92fe087" class="" dir="auto">
-</p><h1 id="3c324a0b-e08b-8041-b84a-d8d2a928f459" class="" dir="auto">⑤ 인보이스(invoice)를 요청하는 고객님 응대</h1><p id="3c324a0b-e08b-80c5-beb7-daa5d126007f" class="" dir="auto">간혹 고객님께서 <strong>숙박확인증, 출장·회사 제출용 증빙자료, 숙박 사실 확인</strong> 등의 목적으로 인보이스(Invoice)를 요청하시는 경우가 있다.</p><p id="3c324a0b-e08b-80fd-bbde-c28405f0b155" class="" dir="auto">이 경우 아래 절차에 따라 인보이스를 작성하고 전달한다.</p><h3 id="3c324a0b-e08b-80cd-a3aa-ff28cdffb3e9" class="" dir="auto">1. 인보이스 양식 불러오기</h3><p id="3c324a0b-e08b-8048-ad6e-df173cd6b916" class="" dir="auto">토유 노트북의 [시작줄]의 [검색]→[인보이스]라고 검색!</p><p id="3c324a0b-e08b-80a8-9f3c-f3f6fb2165fe" class="" dir="auto">기존에 사용하고 있는 <strong>인보이스 양식 또는 기존 작성 자료를 불러온다.</strong></p><p id="3c324a0b-e08b-80a8-9f8b-dfb3a9e67f5b" class="" dir="auto">
-</p><h3 id="3c324a0b-e08b-8029-8bc1-c97b8e4855e8" class="" dir="auto">2. 고객 예약정보 확인 및 작성</h3><p id="3c324a0b-e08b-80ed-86a2-dd730d3ac304" class="" dir="auto">→ 예약 내역을 확인한 후 필요한 정보를 인보이스에 기재한다.</p><p id="3c324a0b-e08b-8016-b4e6-e9e04ff75554" class="" dir="auto">기본적으로 확인할 수 있는 항목은 다음과 같다.</p><p id="3c324a0b-e08b-808e-94e7-fcaf3f011046" class="block-color-purple_background" data-notion-highlight="purple_background" dir="auto"> 🔮<strong> 인보이스 서류 준비시 중요! 기억할 사항.</strong><br/> 고객님이 프라이버시 보장을 위해 원하는 정보를 기재 해드리고 원치 않는 부분은 빼드려야함.<br/>예를들어, 함께 투숙한 사람의 이름들, 방이름, 예약번호 등 고객님의 선호에 따라 확인후 입력완료할것.<br/></p><p id="3c324a0b-e08b-803d-a10d-c2e7daf8966c" class="" dir="auto"><strong>“어떤 정보까지 기재해드릴까요?” /“제외를 원하시는 정보가 있으실까요?”</strong></p><p id="3c324a0b-e08b-8031-8023-e7ea4e69592c" class="" dir="auto">등으로 고객님의 요청사항을 먼저 확인한 뒤 최종 작성한다.</p><ul id="3c324a0b-e08b-809b-9c4c-d9b9d9d73102" class="bulleted-list" dir="auto"><li style="list-style-type:disc">고객명</li></ul><ul id="3c324a0b-e08b-809f-8706-ee603b5e22b1" class="bulleted-list" dir="auto"><li style="list-style-type:disc">투숙 날짜</li></ul><ul id="3c324a0b-e08b-80b7-8810-f1932fbf2292" class="bulleted-list" dir="auto"><li style="list-style-type:disc">체크인 / 체크아웃 날짜</li></ul><ul id="3c324a0b-e08b-8008-a1d8-d50283bfa861" class="bulleted-list" dir="auto"><li style="list-style-type:disc">객실 관련 정보</li></ul><ul id="3c324a0b-e08b-8088-9268-c424cfed60a8" class="bulleted-list" dir="auto"><li style="list-style-type:disc">예약번호</li></ul><ul id="3c324a0b-e08b-8020-aeac-edd4bb449bc0" class="bulleted-list" dir="auto"><li style="list-style-type:disc">기타 고객이 증빙을 위해 요청한 사항</li></ul><p id="3c324a0b-e08b-8072-a116-d7ecfbb348ba" class="block-color-orange" data-notion-highlight="orange" dir="auto"><strong>주의! 모든 예약정보를 무조건 기재하는 것이 아니라 </strong><strong><span style="border-bottom:0.05em solid">고객님께 필요한 정보가 무엇인지 먼저 확인한 후</span></strong><strong> 작성한다.</strong></p><p id="3c324a0b-e08b-8062-b96d-f6103d87512f" class="" dir="auto">
-</p><p id="3c324a0b-e08b-80ec-866b-ec3ae55f08e4" class="block-color-purple_background" data-notion-highlight="purple_background" dir="auto"> 🔮<strong> 최종본 인보이스는  PDF 파일로 저장 <br/></strong>작성 완료 후 편집 가능한 원본 파일을 그대로 전달하지 않고, <strong>최종본을 PDF 형식으로 저장한다. </strong>PDF로 저장한 뒤 내용이 잘리지 않았는지, 문서가 정상적으로 표시되는지도 확인한다.</p><p id="3c324a0b-e08b-80c9-a555-c93147e57f3f" class="" dir="auto"><strong><br/> </strong>🔮 <strong>고객님에게 전달 방법 확인 후 발송</strong><br/>인보이스 작성이 완료되면 고객님께 <strong>어떤 방법으로 받아보기를 원하는지 확인한다.</strong></p><p id="3c324a0b-e08b-80bb-ab00-cc213d5c4fa6" class="" dir="auto">전달 방법은 상황에 따라,</p><ul id="3c324a0b-e08b-8078-9297-cf32a92b3f04" class="bulleted-list" dir="auto"><li style="list-style-type:disc">휴대전화로 발송</li></ul><ul id="3c324a0b-e08b-8080-a4de-d04a812e0a17" class="bulleted-list" dir="auto"><li style="list-style-type:disc">이메일로 발송</li></ul><p id="3c324a0b-e08b-8034-b2e0-dae26ce8e1a6" class="" dir="auto">등이 가능하다. 고객님께 전달 방법과 연락처 또는 이메일 주소를 정확하게 확인한 후 발송한다.</p><p id="3c324a0b-e08b-80bb-a667-e12a0285866c" class="" dir="auto">
-</p></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<meta name="color-scheme" content="light" />
+<title>직원교육 사항, 업무에 녹여내기 위한 정리본 · 2026.08.21</title>
+<style>
+  :root{
+    --text:#202428;
+    --sub:#6f757b;
+    --line:#dedede;
+    --line-dark:#bfc3c7;
+    --bg:#ffffff;
+    --soft:#f7f7f5;
+    --soft2:#f1f3f4;
+    --accent:#63717a;
+    --accent-soft:#eef1f2;
+    --warm:#8a7762;
+    --danger:#8a5f5f;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth;background:#fff}
+  body{
+    margin:0;
+    background:#fff;
+    color:var(--text);
+    font-family:"Pretendard","Noto Sans KR","Apple SD Gothic Neo","Malgun Gothic",Arial,sans-serif;
+    line-height:1.72;
+    letter-spacing:-.018em;
+    -webkit-font-smoothing:antialiased;
+  }
+  .topbar{
+    position:sticky;top:0;z-index:20;
+    background:rgba(255,255,255,.96);
+    border-bottom:1px solid var(--line);
+  }
+  .topbar-inner{
+    max-width:1220px;margin:0 auto;padding:13px 26px;
+    display:flex;align-items:center;justify-content:space-between;gap:18px;
+  }
+  .brand{display:flex;align-items:center;gap:14px;font-size:13px;font-weight:700;letter-spacing:.03em;color:#4d5358}
+  .brand-mark{width:28px;height:28px;border:1px solid var(--line-dark);display:grid;place-items:center;font-size:11px;font-weight:800;color:#7a8085;background:#fff}
+  .brand small{display:block;font-size:9px;font-weight:600;letter-spacing:.16em;color:#9aa0a5;text-transform:uppercase;margin-top:1px}
+  .actions{display:flex;gap:7px;flex-wrap:wrap}
+  button,.ghost-link{
+    border:1px solid var(--line);background:#fff;color:#686e73;
+    padding:8px 12px;border-radius:0;font-weight:700;font-size:11px;cursor:pointer;text-decoration:none;
+    transition:.18s ease;
+  }
+  button:hover,.ghost-link:hover{background:var(--soft)}
+  .layout{max-width:1220px;margin:30px auto 90px;padding:0 26px;display:grid;grid-template-columns:205px minmax(0,1fr);gap:36px;align-items:start}
+  .toc{position:sticky;top:86px;padding:2px 0 0;border-top:1px solid var(--line-dark)}
+  .toc h3{font-size:10px;letter-spacing:.18em;text-transform:uppercase;margin:12px 0 11px;color:#9aa0a5;font-weight:800}
+  .toc a{display:block;color:#868c91;text-decoration:none;padding:8px 0;border-bottom:1px solid #efefef;font-size:12px;transition:.15s}
+  .toc a:hover{color:#363b3f;padding-left:5px}
+  .paper{
+    width:min(100%,900px);margin:0 auto;background:#fff;border:1px solid var(--line);
+    min-height:1273px;padding:68px 74px 82px;position:relative;
+  }
+  .paper:after{content:"";position:absolute;left:-1px;top:-1px;width:66px;height:3px;background:#98a2a8}
+  .report-meta{display:grid;grid-template-columns:1fr auto;gap:26px;align-items:start;margin-bottom:42px}
+  .doc-kicker{font-size:10px;letter-spacing:.20em;text-transform:uppercase;color:#979da2;font-weight:800;margin-bottom:14px}
+  h1{font-weight:760;font-size:38px;line-height:1.22;margin:0;letter-spacing:-.045em;color:#2d3236}
+  .lead{font-size:14px;color:#73797e;max-width:650px;margin:18px 0 0;line-height:1.72}
+  .meta-box{min-width:158px;border-top:1px solid var(--line-dark);font-size:10px;color:#8b9196}
+  .meta-row{display:flex;justify-content:space-between;gap:16px;padding:7px 0;border-bottom:1px solid #ededed}
+  .meta-row b{font-size:10px;color:#5f656a;font-weight:700}
+  .rule{height:1px;background:var(--line-dark);margin:0 0 42px}
+  section{position:relative;margin:0 0 58px;scroll-margin-top:100px}
+  .badge{display:inline-block;padding:0 0 6px;border-bottom:2px solid #aab2b7;font-size:9px;font-weight:800;letter-spacing:.15em;text-transform:uppercase;color:#93999e;background:transparent}
+  h2{font-size:23px;line-height:1.4;margin:12px 0 20px;padding-bottom:14px;border-bottom:1px solid var(--line);letter-spacing:-.035em;color:#33383c}
+  h3{font-size:15px;margin:26px 0 10px;color:#4f565b;font-weight:750}
+  p{margin:10px 0}
+  ul,ol{padding-left:20px}
+  li{margin:6px 0}
+  strong{font-weight:800;color:#3b4044}
+  .definition{background:var(--soft);border:1px solid #e5e5e3;padding:18px 20px;border-radius:0;margin:20px 0}
+  .definition b{color:#596168}
+  .flow{display:grid;grid-template-columns:repeat(4,1fr);border:1px solid var(--line);margin:22px 0 8px}
+  .flow span{background:#fff;padding:11px 10px;font-weight:800;font-size:12px;text-align:center;border-right:1px solid var(--line)}
+  .flow span:last-child{border-right:0}
+  .flow i{display:none}
+  table{width:100%;border-collapse:collapse;margin:18px 0 26px;font-size:12.5px;border-top:1px solid var(--line-dark)}
+  th,td{padding:11px 10px;border-bottom:1px solid var(--line);vertical-align:top;text-align:left}
+  th{font-size:9px;letter-spacing:.11em;text-transform:uppercase;color:#8f959a;background:#fafafa;font-weight:800}
+  .note{border-left:2px solid #9da7ad;padding:13px 16px;background:#fafafa;margin:18px 0;border-radius:0;color:#555c61}
+  .warning{background:#fbf8f7;border:1px solid #e7dddd;border-radius:0;padding:16px 18px;margin:18px 0;color:#6d5a5a}
+  .warning strong{color:#7b5f5f}
+  .steps{counter-reset:step;display:grid;gap:0;margin-top:18px;border-top:1px solid var(--line-dark)}
+  .step{counter-increment:step;border-bottom:1px solid var(--line);border-radius:0;padding:16px 12px 16px 50px;position:relative;background:#fff}
+  .step:before{content:counter(step,decimal-leading-zero);position:absolute;left:4px;top:17px;width:30px;height:auto;border:0;border-radius:0;background:transparent;color:#9ca3a8;display:block;font-size:10px;font-weight:800;letter-spacing:.10em}
+  .step b{display:block;margin-bottom:3px;color:#4a5055}
+  .quote{font-size:16px;line-height:1.7;border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:17px 4px;margin:20px 0;color:#50575c;background:#fcfcfc}
+  .keyline{background:#f3f4f4;color:#464c50;padding:17px 18px;border-radius:0;border-left:3px solid #909aa0;margin-top:20px;font-weight:800;letter-spacing:-.01em}
+  .media{margin:20px 0;border:1px solid var(--line);border-radius:0;overflow:hidden;background:#fafafa}
+  .media img{display:block;width:100%;height:auto;filter:saturate(.82) contrast(.97)}
+  .caption{padding:9px 12px;font-size:10px;color:#8e9499;border-top:1px solid var(--line);background:#fff}
+  .footer{margin-top:58px;padding-top:14px;border-top:1px solid var(--line-dark);display:flex;justify-content:space-between;gap:16px;color:#9aa0a5;font-size:9px;letter-spacing:.08em;text-transform:uppercase}
+  @media (max-width:900px){.layout{grid-template-columns:1fr}.toc{display:none}.paper{padding:48px 34px}.topbar-inner{padding:10px 14px}.report-meta{grid-template-columns:1fr}.meta-box{max-width:240px}h1{font-size:33px}}
+  @media (max-width:560px){.layout{margin-top:0;padding:0}.paper{border-left:0;border-right:0;padding:38px 21px}.report-meta{margin-bottom:32px}h1{font-size:29px}.actions button:nth-child(2){display:none}.topbar{position:static}.flow{grid-template-columns:1fr 1fr}.flow span:nth-child(2){border-right:0}.flow span{border-bottom:1px solid var(--line)}.flow span:nth-last-child(-n+2){border-bottom:0}}
+  @media print{
+    body{background:#fff}.topbar,.toc{display:none}.layout{display:block;margin:0;padding:0}.paper{width:210mm;min-height:297mm;margin:0;padding:16mm 17mm 19mm;box-shadow:none;border:0}.paper:after{display:none}section{break-inside:avoid}.report-meta{margin-bottom:28px}
+  }
+</style>
+</head>
+<body>
+<header class="topbar">
+  <div class="topbar-inner">
+    <div class="brand"><div class="brand-mark">R</div><div>STAFF TRAINING REPORT <small>TOYU HOTEL · 2026.08.21</small></div></div>
+    <div class="actions">
+      <button onclick="window.print()">A4 PDF / 인쇄</button>
+      <button onclick="document.documentElement.requestFullscreen?.()">전체화면</button>
+    </div>
+  </div>
+</header>
+
+<div class="layout">
+  <aside class="toc">
+    <h3>Contents</h3>
+    <a href="#intro">01 · TL린칸 이해</a>
+    <a href="#ota">02 · OTA 구조</a>
+    <a href="#crosscheck">03 · 조식 교차확인</a>
+    <a href="#hardblock">04 · 하드블럭</a>
+    <a href="#excel">05 · 예약 확인 실무</a>
+    <a href="#invoice">06 · 인보이스</a>
+  </aside>
+
+  <main class="paper">
+    <div class="report-meta">
+      <div>
+        <div class="doc-kicker">TOYU HOTEL · DAILY TRAINING REPORT</div>
+        <h1> 교육담당자 : 지배인,박매니저,최주임 /직원명: 김은진</h1>
+        <p class="lead">금일 교육받은 프런트·예약 실무 내용을 숙지한것들 위주로 실제 업무 흐름에 맞춰 정리해보았습니다. 고객예약과 TL린칸, OTA 예약 구조, 예약 시트 확인 및 인보이스 응대 절차를 중심으로 정리했습니다.</p>
+      </div>
+      <div class="meta-box">
+        <div class="meta-row"><span>DATE</span><b>2026.08.21</b></div>
+        <div class="meta-row"><span>TYPE</span><b>교육 습득 보고</b></div>
+        <div class="meta-row"><span>AREA</span><b>Front / Reservation</b></div>
+      </div>
+    </div>
+    <div class="rule"></div>
+
+    <section id="intro">
+      <span class="badge">01 · System</span>
+      <h2>TL린칸(TL-Lincoln, 티엘린칸) 사용하기</h2>
+      <p>TL린칸은 호텔 예약 관련 매니저의 한 프로그램이다.</p>
+      <p>아고다·익스피디아·야놀자·부킹닷컴 같은 OTA 예약을 한 화면에서 통합 관리해 주는 시스템 중 하나이다.</p>
+      <div class="definition"><b>핵심 구분</b><br>TL린칸 자체가 객실을 파는 곳이 아니다. 여러 온라인 여행사의 예약을 일괄 관리하고, OTA에 객실 재고와 요금을 동기화하는 <strong>채널매니저(Channel Manager)</strong>이다.</div>
+      <ul>
+        <li><strong>OTA</strong>는 고객님이 실제로 들어가 호텔을 검색하고 예약하는 판매처.</li>
+        <li><strong>TL린칸</strong>은 여러 OTA에서 들어오는 예약과 객실 재고·요금을 한곳에서 관리하는 채널매니저.</li>
+      </ul>
+      <div class="flow"><span>호텔</span><i>←</i><span>TL린칸</span><i>←</i><span>여러 OTA</span><i>←</i><span>고객</span></div>
+    </section>
+
+    <section id="ota">
+      <span class="badge">02 · Distribution</span>
+      <h2>유명 OTA와 역할 이해</h2>
+      <table>
+        <thead><tr><th>구분</th><th>OTA</th><th>쉽게 기억하기</th></tr></thead>
+        <tbody>
+          <tr><td>국내</td><td>야놀자 (Yanolja)</td><td>국내 대표 숙박 예약 플랫폼</td></tr>
+          <tr><td>국내</td><td>여기어때 (Yeogi Eottae)</td><td>국내 호텔·펜션·숙소 예약</td></tr>
+          <tr><td>국내</td><td>마이리얼트립</td><td>여행·호텔·투어 예약</td></tr>
+          <tr><td>해외</td><td>Agoda 아고다</td><td>아시아권에서 매우 많이 사용</td></tr>
+          <tr><td>해외</td><td>Booking.com 부킹닷컴</td><td>세계적으로 큰 호텔 예약 플랫폼</td></tr>
+          <tr><td>해외</td><td>Expedia 익스피디아</td><td>호텔·항공·패키지</td></tr>
+          <tr><td>해외</td><td>Trip.com 트립닷컴</td><td>중국계 글로벌 OTA, 한국에서도 많이 사용</td></tr>
+          <tr><td>해외</td><td>Hotels.com 호텔스닷컴</td><td>호텔 중심 예약</td></tr>
+          <tr><td>해외</td><td>Airbnb 에어비앤비</td><td>호텔보다 숙소·펜션·개인 숙박 중심</td></tr>
+        </tbody>
+      </table>
+      <p>예를 들면 고객이 아고다에서 예약하면 → 그 예약 정보가 TL린칸으로 들어오고 → 호텔 직원이 TL린칸에서 예약을 확인하는 식이다.</p>
+      <div class="note">아고다·익스피디아 같은 OTA 채널들이 객실을 팔아주는 <strong>영업사원</strong> 같은 역할을 한다면, TL린칸은 그 예약·재고·요금을 한 곳에서 정리해 주는 <strong>TOOL</strong>이라고 이해하면 쉽다.</div>
+      <h3>TL린칸에서 반드시 확인할 항목</h3>
+      <ul><li>예약 OTA</li><li>예약 상품</li><li><strong>조식 포함 여부 — 특히 중요</strong></li><li>하드블럭 표시 여부</li></ul>
+      <div class="warning"><strong>주의</strong> · TL린칸에 표시된 정보만 보고 최종 판단하면 안 된다.</div>
+    </section>
+
+    <section id="crosscheck">
+      <span class="badge">03 · Cross-check</span>
+      <h2>OTA 유통 시 ‘조식 포함’ 정보 교차 검토</h2>
+      <p>야놀자 → 아고다 등 OTA 간 재유통 과정에서는 조식 포함 정보가 누락되거나 오기재될 수 있다. 따라서 조식 포함 고객 정보의 오류를 막기 위해 반드시 교차 확인한다.</p>
+      <div class="steps">
+        <div class="step"><b>TL린칸 1차 확인</b>예약 경로·날짜·BREAKFAST 표기 여부·객실 수·요금 정상 여부 확인</div>
+        <div class="step"><b>원본 채널 교차 확인 — 핵심</b>네이버 이메일 로그인 후 검색창에 <strong>‘하드’</strong>를 입력하여 해당 예약 완료 메일을 확인하고 교차검토</div>
+        <div class="step"><b>OTA 예약 플랫폼에서 원본 재확인</b>예: 야놀자 등 실제 예약 채널에서 예약 내용을 다시 확인</div>
+        <div class="step"><b>조식 포함 여부 최종 확정</b>정보가 충돌하면 고객에게 우선 문의 후 최종 확정안을 예약 시트에 기재</div>
+        <div class="step"><b>프런트 인수인계·전달</b>미확인 건 또는 변경사항은 다음 시프트 담당자에게 인계하고 구두로도 전달</div>
+      </div>
+      <div class="note"><strong>가장 중요한 것은 2~3번.</strong><br>OTA 간 재유통으로 조식 정보가 누락되거나 오기재될 수 있으므로, TL린칸만 보지 말고 원본 예약처와 발신처(네이버 이메일 수동 확인), 고객 확인까지 거친다.</div>
+      <div class="quote">“고객님~ 조식 포함 패키지로 예약이 진행되어 있으신데 맞으실까요?”</div>
+      <div class="warning"><strong>기억</strong> · 예약이 들어온 OTA 이름 = 실제 상품의 원판매처라고 단순하게 판단하면 안 된다.</div>
+    </section>
+
+    <section id="hardblock">
+      <span class="badge">04 · Hard Block</span>
+      <h2>하드블럭 예약 확인 업무 정리</h2>
+      <h3>1. 하드블럭이란?</h3>
+      <p>아고다·익스피디아 등의 OTA 예약채널에서 판매한 객실 상품을 야놀자 등 다른 OTA가 가져가 다시 판매하는 경우가 있다. 따라서 고객 예약 화면에는 아고다 예약으로 보이더라도 실제로는 야놀자에서 만들어진 조식 포함 상품일 수 있다.</p>
+      <p><strong>토유에서는 하드블럭 표시를 실무상 조식 포함 패키지 예약 확인 포인트로 본다.</strong></p>
+      <ul>
+        <li>하드블럭 = 조식이 포함된 패키지 예약이라고 생각하면 된다.</li>
+        <li>예약 확인 시 객실 예약만 보는 것이 아니라 <strong>조식 포함 여부까지 반드시 확인</strong>한다.</li>
+        <li>하드블럭은 일정 객실을 미리 확보하고 확약한 물량이므로, 우리 호텔에서 사용하는 실무 의미를 기준으로 기억한다.</li>
+      </ul>
+      <div class="definition"><b>쉽게 말하면</b><br>보통 여행사나 OTA(야놀자·아고다 같은 판매처)가 호텔과 계약하여 “이 날짜 방 5개는 우리가 판매할 수 있게 미리 빼주세요”라고 하고 확보해두는 것이다. <strong>호텔 방을 여행사가 미리 찜해두는 것</strong>이라고 기억하면 쉽다.</div>
+      <h3>2. 예약 확인 시 반드시 체크할 것</h3>
+      <ul><li>예약 경로가 어디인지</li><li>하드블럭 예약인지</li><li>조식이 포함되어 있는지</li></ul>
+      <div class="warning"><strong>주의</strong> · 예약 화면의 OTA 이름만 보고 판단하지 않는다.</div>
+    </section>
+
+    <section id="excel">
+      <span class="badge">05 · Daily Sheet</span>
+      <h2>실무 고객예약 엑셀시트 작성 전 예약 확인하기</h2>
+      <p>예약을 확인할 때 아래 순서대로 본다.</p>
+      <div class="steps">
+        <div class="step"><b>하드블럭 예약 여부 확인</b>오늘 또는 해당 날짜의 예약 중 하드블럭 예약이 있는지 먼저 확인한다.</div>
+        <div class="step"><b>TL린칸 확인</b><strong>[예약 관리]</strong> 버튼 클릭 → 일반 또는 숙박 날짜 입력 → 예약 구분 확인 → 예약번호 클릭</div>
+        <div class="step"><b>예약번호 상세 확인</b>예약 고객 이름 → 인원 → 예약 경로 → 투숙일자 및 투숙기간(몇 박 몇 일) → 예약 상품 → 조식 포함 여부 → 인원 여부 순으로 확인하며 일일 엑셀시트와 대조 입력</div>
+        <div class="step"><b>조식 표기 판별</b><strong>Room Only</strong> = 조식 불포함 / <strong>Breakfast</strong> 표기 = 조식 포함</div>
+        <div class="step"><b>네이버 이메일 교차확인</b>토유 네이버 이메일 로그인 → 검색창에 <strong>‘하드’</strong> 입력 → 하드블럭 관련 예약 이메일 또는 원본 예약 내용 확인 → 최종 예약 정보 교차검증</div>
+      </div>
+      <div class="media">
+        <img src="저화질TL린칸.jpg" alt="TL린칸 예약 화면 예시" onerror="this.parentElement.style.display='none'">
+        <div class="caption">TL린칸 예약 화면 예시 · 저장소에 ‘저화질TL린칸.jpg’가 함께 있으면 자동 표시됩니다.</div>
+      </div>
+    </section>
+
+    <section id="invoice">
+      <span class="badge">06 · Guest Document</span>
+      <h2>인보이스(Invoice)를 요청하는 고객님 응대</h2>
+      <p>간혹 고객님께서 숙박확인증, 출장·회사 제출용 증빙자료, 숙박 사실 확인 등의 목적으로 인보이스(Invoice)를 요청하시는 경우가 있다. 아래 절차에 따라 작성하고 전달한다.</p>
+      <div class="steps">
+        <div class="step"><b>인보이스 양식 불러오기</b>토유 노트북의 <strong>[시작줄] → [검색] → ‘인보이스’</strong> 검색 후 기존 인보이스 양식 또는 기존 작성 자료 불러오기</div>
+        <div class="step"><b>고객 예약정보 확인 및 작성</b>예약 내역을 확인한 후 고객에게 필요한 정보만 정확하게 기재</div>
+        <div class="step"><b>기재·제외 정보 고객 확인</b>함께 투숙한 사람의 이름, 방 이름, 예약번호 등은 고객님의 프라이버시와 선호에 따라 포함 또는 제외</div>
+        <div class="step"><b>최종본 PDF 저장</b>편집 가능한 원본 파일이 아니라 최종본을 PDF 형식으로 저장하고, 문서가 잘리지 않았는지 정상 표시되는지 확인</div>
+        <div class="step"><b>전달 방법 확인 후 발송</b>휴대전화 또는 이메일 등 고객이 원하는 수령 방법을 확인하고, 연락처·이메일 주소를 정확하게 확인 후 발송</div>
+      </div>
+      <div class="note"><strong>인보이스 준비 시 가장 중요한 원칙</strong><br>모든 예약정보를 무조건 기재하지 않는다. 고객님이 원하는 정보는 기재하고, 원하지 않는 정보는 제외한다.</div>
+      <div class="quote">“어떤 정보까지 기재해드릴까요?”<br>“제외를 원하시는 정보가 있으실까요?”</div>
+      <h3>기본 확인 가능 항목</h3>
+      <ul><li>고객명</li><li>투숙 날짜</li><li>체크인 / 체크아웃 날짜</li><li>객실 관련 정보</li><li>예약번호</li><li>기타 고객이 증빙을 위해 요청한 사항</li></ul>
+      <div class="keyline">인보이스: 고객 요청사항 확인 → 필요한 정보만 작성 → 최종 검수 → PDF 저장 → 전달 방법 확인 → 발송</div>
+    </section>
+
+    <div class="footer"><span>TOYU HOTEL · DAILY STAFF TRAINING REPORT</span><span>Front Desk / Reservation Operations</span></div>
+  </main>
+</div>
+
+<script>
+  const links=[...document.querySelectorAll('.toc a')];
+  const sections=[...document.querySelectorAll('main section')];
+  const io=new IntersectionObserver(entries=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){
+        links.forEach(a=>a.style.fontWeight='500');
+        const a=links.find(x=>x.getAttribute('href')==='#'+e.target.id);
+        if(a)a.style.fontWeight='800';
+      }
+    })
+  },{rootMargin:'-25% 0px -60% 0px'});
+  sections.forEach(s=>io.observe(s));
+</script>
+</body>
+</html>

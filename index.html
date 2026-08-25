@@ -2,7 +2,7 @@
 <html lang="ko">
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>신규 근무자 직무교육 통합 보고 | 2026.08.21–08.25</title>
+  <title>TOYU Training Report | 토유 신규 근무자 직무교육 통합 보고</title>
   <style>
     :root{
       --bg:#ffffff;
@@ -77,20 +77,30 @@
     .brand-copy{min-width:0}
     .brand-kicker{
       font-size:10px;
-      font-weight:800;
-      letter-spacing:.16em;
-      text-transform:uppercase;
-      color:#90979d;
-      margin-bottom:3px;
+      font-weight:850;
+      letter-spacing:.12em;
+      color:#586169;
+      margin-bottom:2px;
       white-space:nowrap;
     }
     .brand-title{
-      font-size:18px;
-      font-weight:780;
+      font-size:15px;
+      line-height:1.28;
+      font-weight:790;
       color:#2a3035;
       white-space:nowrap;
       overflow:hidden;
       text-overflow:ellipsis;
+    }
+    .brand-title .since{color:#8b9298;font-weight:700}
+    .brand-author{
+      margin-top:2px;
+      font-size:8.5px;
+      line-height:1.2;
+      letter-spacing:.01em;
+      color:#a0a6ab;
+      font-weight:650;
+      white-space:nowrap;
     }
     .top-actions{display:flex; gap:8px; flex-wrap:wrap; justify-content:flex-end}
     .btn,.ghost-link{
@@ -631,8 +641,171 @@
       .menu-grid,.serving-grid{grid-template-columns:1fr}
       .menu-photo{height:230px}
     }
+
+
+    /* ===== 고정 퀵 네비게이션 · 업무 주제 목차 ===== */
+    .quick-nav{
+      position:fixed;
+      right:22px;
+      bottom:22px;
+      z-index:8800;
+      display:flex;
+      align-items:center;
+      gap:7px;
+      filter:drop-shadow(0 10px 24px rgba(30,36,40,.14));
+    }
+    .quick-nav-btn{
+      appearance:none;
+      min-width:74px;
+      height:42px;
+      padding:0 14px;
+      border:1px solid #cfd4d8;
+      border-radius:0;
+      background:#fffefa;
+      color:#47515a;
+      font:800 12px/1 "Pretendard","Noto Sans KR","Apple SD Gothic Neo","Malgun Gothic",Arial,sans-serif;
+      letter-spacing:-.01em;
+      cursor:pointer;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:7px;
+      transition:transform .18s ease, background .18s ease, border-color .18s ease, box-shadow .18s ease;
+    }
+    .quick-nav-btn:hover{transform:translateY(-2px);border-color:#b8c0c6;box-shadow:0 8px 20px rgba(35,42,47,.10)}
+    .quick-nav-btn:active{transform:translateY(0)}
+    .quick-nav-btn.toc{background:var(--blue);border-color:var(--blue-line)}
+    .quick-nav-btn.top{background:var(--yellow);border-color:var(--yellow-line)}
+    .quick-nav-icon{font-size:12px;color:#7b858d;font-weight:900}
+
+    .toc-modal{
+      position:fixed;
+      inset:0;
+      z-index:9600;
+      display:grid;
+      place-items:center;
+      padding:28px;
+      background:rgba(29,34,38,.38);
+      backdrop-filter:blur(6px);
+      -webkit-backdrop-filter:blur(6px);
+      opacity:0;
+      visibility:hidden;
+      transition:opacity .24s ease, visibility .24s ease;
+    }
+    .toc-modal.is-open{opacity:1;visibility:visible}
+    .toc-dialog{
+      width:min(940px,100%);
+      max-height:min(86vh,820px);
+      background:#fffdf9;
+      border:1px solid #cfd3d6;
+      border-radius:0;
+      box-shadow:0 28px 84px rgba(20,25,28,.24);
+      display:flex;
+      flex-direction:column;
+      overflow:hidden;
+      transform:translateY(24px) scale(.99);
+      opacity:0;
+      transition:transform .3s cubic-bezier(.2,.72,.22,1), opacity .24s ease;
+    }
+    .toc-modal.is-open .toc-dialog{transform:translateY(0) scale(1);opacity:1}
+    .toc-modal-head{
+      flex:0 0 auto;
+      padding:22px 24px 18px;
+      border-bottom:1px solid #dde0e2;
+      background:linear-gradient(110deg,#f8edf1 0%,#fbf6df 50%,#eef3f8 100%);
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-start;
+      gap:18px;
+    }
+    .toc-kicker{font-size:9px;font-weight:850;letter-spacing:.16em;color:#91989e;text-transform:uppercase;margin-bottom:6px}
+    .toc-modal-head h2{margin:0;font-size:23px;line-height:1.3;color:#30373d;letter-spacing:-.035em}
+    .toc-modal-head p{margin:7px 0 0;font-size:12.5px;color:#6f777e;line-height:1.65}
+    .toc-close{
+      appearance:none;
+      width:35px;height:35px;
+      border:1px solid #cfd4d7;
+      background:rgba(255,255,255,.76);
+      border-radius:0;
+      color:#626b73;
+      font-size:19px;
+      line-height:1;
+      cursor:pointer;
+      flex:0 0 auto;
+    }
+    .toc-close:hover{background:#fff}
+    .toc-modal-body{overflow:auto;padding:20px 22px 24px;overscroll-behavior:contain}
+    .toc-featured{
+      display:grid;
+      grid-template-columns:1fr auto;
+      align-items:center;
+      gap:16px;
+      padding:14px 16px;
+      border:1px solid #e4cfd6;
+      background:linear-gradient(120deg,#f9e9ee,#fbf3d8);
+      margin-bottom:14px;
+    }
+    .toc-featured b{display:block;font-size:13px;color:#4d454a;margin-bottom:2px}
+    .toc-featured span{display:block;font-size:11.5px;color:#796d73}
+    .toc-featured button{
+      appearance:none;border:1px solid #d9c0c8;background:#fffdf9;border-radius:0;
+      padding:8px 11px;font-size:11px;font-weight:800;color:#66575d;cursor:pointer;
+    }
+    .toc-topic-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+    .toc-topic{
+      border:1px solid #dce0e2;
+      background:#fff;
+      min-width:0;
+    }
+    .toc-topic:nth-child(4n+1) .toc-topic-head{background:var(--pink)}
+    .toc-topic:nth-child(4n+2) .toc-topic-head{background:var(--mint)}
+    .toc-topic:nth-child(4n+3) .toc-topic-head{background:var(--blue)}
+    .toc-topic:nth-child(4n+4) .toc-topic-head{background:var(--yellow)}
+    .toc-topic-head{padding:11px 13px;border-bottom:1px solid #dfe2e4}
+    .toc-topic-head b{font-size:12.5px;color:#465058}
+    .toc-topic-list{display:grid;padding:5px}
+    .toc-jump{
+      appearance:none;
+      width:100%;
+      border:0;
+      border-bottom:1px solid #edf0f1;
+      background:#fff;
+      text-align:left;
+      padding:10px 9px;
+      color:#4c555d;
+      font:700 12px/1.45 "Pretendard","Noto Sans KR","Apple SD Gothic Neo","Malgun Gothic",Arial,sans-serif;
+      cursor:pointer;
+      display:grid;
+      grid-template-columns:48px minmax(0,1fr);
+      gap:8px;
+      align-items:start;
+    }
+    .toc-jump:last-child{border-bottom:0}
+    .toc-jump:hover{background:#fafaf8}
+    .toc-jump small{font-size:9px;color:#9aa1a7;font-weight:800;letter-spacing:.04em;padding-top:2px}
+    .toc-jump span{min-width:0}
+    .toc-modal-foot{padding:10px 22px;border-top:1px solid #e0e2e4;background:#faf9f6;color:#92989e;font-size:10px;display:flex;justify-content:space-between;gap:12px}
+    body.toc-lock{overflow:hidden}
+
+    @media (max-width:760px){
+      .quick-nav{right:12px;bottom:calc(12px + env(safe-area-inset-bottom));gap:6px}
+      .quick-nav-btn{min-width:66px;height:40px;padding:0 11px;font-size:11px}
+      .toc-modal{padding:10px}
+      .toc-dialog{max-height:94vh}
+      .toc-modal-head{padding:18px 16px 14px}
+      .toc-modal-head h2{font-size:20px}
+      .toc-modal-body{padding:14px}
+      .toc-topic-grid{grid-template-columns:1fr}
+      .toc-featured{grid-template-columns:1fr;gap:10px}
+      .toc-featured button{justify-self:start}
+      .brand-kicker{font-size:9px}
+      .brand-title{font-size:12.5px;white-space:normal}
+      .brand-author{font-size:7.5px}
+      .brand-mark{width:32px;height:32px;font-size:9px}
+    }
+
     @media print{
-      .topbar,.sidebar,.button-row{display:none !important}
+      .topbar,.sidebar,.button-row,.quick-nav,.toc-modal{display:none !important}
       .layout{display:block; max-width:none; padding:0}
       .hero,.day-section{border:0; padding:0; margin-bottom:22px}
       .accordion{border:1px solid #dcdcdc}
@@ -834,10 +1007,11 @@
   <header class="topbar">
     <div class="topbar-inner">
       <div class="brand">
-        <div class="brand-mark">TR</div>
+        <div class="brand-mark">TOYU</div>
         <div class="brand-copy">
-          <div class="brand-kicker">Training Report Archive</div>
-          <div class="brand-title">신규 근무자 직무교육 통합 보고 · 2026.08.21–08.25</div>
+          <div class="brand-kicker">TOYU Training Report</div>
+          <div class="brand-title">토유 신규 근무자 직무교육 통합 보고플랫폼 · <span class="since">since 2026.08.21~</span></div>
+          <div class="brand-author">신규근무자(작성자): 김은진</div>
         </div>
       </div>
       <div class="top-actions">
@@ -1512,6 +1686,83 @@
     </main>
   </div>
 
+
+  <!-- 화면 고정 퀵 네비게이션 -->
+  <nav class="quick-nav" aria-label="빠른 이동">
+    <button class="quick-nav-btn toc" type="button" data-toc-open aria-haspopup="dialog"><span class="quick-nav-icon">☰</span>목차</button>
+    <button class="quick-nav-btn top" type="button" data-scroll-top><span class="quick-nav-icon">↑</span>맨위로</button>
+  </nav>
+
+  <!-- 업무 주제별 목차 모달 -->
+  <div class="toc-modal" id="tocModal" aria-hidden="true">
+    <section class="toc-dialog" role="dialog" aria-modal="true" aria-labelledby="tocTitle">
+      <header class="toc-modal-head">
+        <div>
+          <div class="toc-kicker">QUICK INDEX · TASK NAVIGATION</div>
+          <h2 id="tocTitle">업무 주제별 목차</h2>
+          <p>날짜를 찾지 않아도 됩니다. 지금 필요한 업무를 선택하면 해당 교육내용으로 바로 이동합니다.</p>
+        </div>
+        <button class="toc-close" type="button" data-toc-close aria-label="목차 닫기">×</button>
+      </header>
+
+      <div class="toc-modal-body">
+        <div class="toc-featured">
+          <div><b>최근 강조사항 · 필수 공지</b><span>대표 · 지배인 최근 공지와 현장 필수 숙지사항</span></div>
+          <button type="button" data-toc-notice>공지 열기</button>
+        </div>
+
+        <div class="toc-topic-grid">
+          <section class="toc-topic">
+            <div class="toc-topic-head"><b>예약 · 프런트</b></div>
+            <div class="toc-topic-list">
+              <button class="toc-jump" data-target="tl-0821"><small>8/21</small><span>TL린칸 · OTA 구조 이해</span></button>
+              <button class="toc-jump" data-target="breakfast-0821"><small>8/21</small><span>조식 포함 여부 교차확인</span></button>
+              <button class="toc-jump" data-target="invoice-0821"><small>8/21</small><span>예약 확인 · 인보이스 응대</span></button>
+              <button class="toc-jump" data-target="hardblock-0825"><small>8/25</small><span>하드블럭 · 예약시트 기재 기준</span></button>
+              <button class="toc-jump" data-target="open-close-0825"><small>8/25</small><span>오픈팀 업무 마감하기</span></button>
+            </div>
+          </section>
+
+          <section class="toc-topic">
+            <div class="toc-topic-head"><b>레스토랑 · 조식</b></div>
+            <div class="toc-topic-list">
+              <button class="toc-jump" data-target="menu-0822"><small>8/22</small><span>전체 메뉴 · 구성 · 제공 형태</span></button>
+              <button class="toc-jump" data-target="breakfast-serve-0822"><small>8/22</small><span>조식 서빙 기준</span></button>
+              <button class="toc-jump" data-target="serving-0822"><small>8/22</small><span>메뉴별 그릇 · 기물 · 서빙</span></button>
+              <button class="toc-jump" data-target="side-0822"><small>8/22</small><span>사이드 · 주류 · Pairing</span></button>
+              <button class="toc-jump" data-target="restaurant-close-0825"><small>8/25</small><span>레스토랑 마감하기</span></button>
+            </div>
+          </section>
+
+          <section class="toc-topic">
+            <div class="toc-topic-head"><b>객실 · 인스펙션</b></div>
+            <div class="toc-topic-list">
+              <button class="toc-jump" data-target="inspect-0823"><small>8/23</small><span>객실 인스펙션 · 룸터치</span></button>
+              <button class="toc-jump" data-target="report-0823"><small>8/23</small><span>객실 현황 보고 형식</span></button>
+              <button class="toc-jump" data-target="day-0824"><small>8/24</small><span>객실 인원추가 · 침구추가 · 프런트 마감</span></button>
+            </div>
+          </section>
+
+          <section class="toc-topic">
+            <div class="toc-topic-head"><b>일자별 교육보고</b></div>
+            <div class="toc-topic-list">
+              <button class="toc-jump" data-target="day-0821"><small>DATE</small><span>8월 21일 직무교육보고</span></button>
+              <button class="toc-jump" data-target="day-0822"><small>DATE</small><span>8월 22일 직무교육보고</span></button>
+              <button class="toc-jump" data-target="day-0823"><small>DATE</small><span>8월 23일 직무교육보고</span></button>
+              <button class="toc-jump" data-target="day-0824"><small>DATE</small><span>8월 24일 직무교육보고</span></button>
+              <button class="toc-jump" data-target="day-0825"><small>DATE</small><span>8월 25일 직무교육보고</span></button>
+            </div>
+          </section>
+        </div>
+      </div>
+
+      <footer class="toc-modal-foot">
+        <span>TOYU Training Report · Quick Index</span>
+        <span>ESC 또는 바깥 영역 클릭으로 닫기</span>
+      </footer>
+    </section>
+  </div>
+
   <!-- 최근 공지 · 필수 숙지 모달 -->
   <div class="notice-modal" id="noticeModal" aria-hidden="true">
     <section class="notice-dialog" role="dialog" aria-modal="true" aria-labelledby="noticeTitle">
@@ -1670,6 +1921,66 @@
       modal.addEventListener('mousedown', e => { if(e.target === modal) closeModal(); });
       document.addEventListener('keydown', e => {
         if(e.key === 'Escape' && modal.classList.contains('is-open')) closeModal();
+      });
+    })();
+  </script>
+
+
+  <script>
+    (() => {
+      const tocModal = document.getElementById('tocModal');
+      const tocOpeners = document.querySelectorAll('[data-toc-open]');
+      const tocClosers = document.querySelectorAll('[data-toc-close]');
+      const jumps = document.querySelectorAll('[data-target]');
+      const topBtn = document.querySelector('[data-scroll-top]');
+      const noticeFromToc = document.querySelector('[data-toc-notice]');
+      let lastTocFocus = null;
+
+      function openToc(){
+        lastTocFocus = document.activeElement;
+        tocModal.classList.add('is-open');
+        tocModal.setAttribute('aria-hidden','false');
+        document.body.classList.add('toc-lock');
+        requestAnimationFrame(() => tocModal.querySelector('[data-toc-close]')?.focus());
+      }
+
+      function closeToc(restoreFocus = true){
+        if(!tocModal.classList.contains('is-open')) return;
+        tocModal.classList.remove('is-open');
+        tocModal.setAttribute('aria-hidden','true');
+        document.body.classList.remove('toc-lock');
+        if(restoreFocus) setTimeout(() => lastTocFocus?.focus?.(), 220);
+      }
+
+      function jumpTo(id){
+        const target = document.getElementById(id);
+        if(!target) return;
+        if(target.tagName === 'DETAILS') target.open = true;
+        const parentDetails = target.closest('details');
+        if(parentDetails) parentDetails.open = true;
+        closeToc(false);
+        setTimeout(() => {
+          target.scrollIntoView({behavior:'smooth', block:'start'});
+          if(history.replaceState) history.replaceState(null,'','#' + id);
+        }, 120);
+      }
+
+      tocOpeners.forEach(btn => btn.addEventListener('click', openToc));
+      tocClosers.forEach(btn => btn.addEventListener('click', () => closeToc()));
+      jumps.forEach(btn => btn.addEventListener('click', () => jumpTo(btn.dataset.target)));
+      topBtn?.addEventListener('click', () => window.scrollTo({top:0, behavior:'smooth'}));
+
+      noticeFromToc?.addEventListener('click', () => {
+        closeToc(false);
+        setTimeout(() => document.querySelector('[data-notice-open]')?.click(), 120);
+      });
+
+      tocModal?.addEventListener('mousedown', e => {
+        if(e.target === tocModal) closeToc();
+      });
+
+      document.addEventListener('keydown', e => {
+        if(e.key === 'Escape' && tocModal?.classList.contains('is-open')) closeToc();
       });
     })();
   </script>

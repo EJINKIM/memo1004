@@ -1143,8 +1143,8 @@
       background:#f4f3ee;
       transition:opacity .2s ease;
     }
-    .breakfast-loading.is-hidden{opacity:0}
-    body.breakfast-lock{overflow:hidden}
+    .breakfast-loading.is-hidden{opacity:0;visibility:hidden;pointer-events:none!important}
+    body.breakfast-lock{overflow:hidden} html.auth-locked.breakfast-only body{overflow:hidden!important}
 
     @media (max-width:760px){
       .quick-nav{
@@ -1289,14 +1289,13 @@
 
 
 <style>
-/* v4.5 · 모바일 조식리딩 가독성 */
-html,body{touch-action:pan-x pan-y pinch-zoom}
-.breakfast-frame,.breakfast-frame-wrap{touch-action:pan-x pan-y pinch-zoom!important}
+/* v4.6 · 모바일 안정성 우선 */
 @media(max-width:760px){
-  .breakfast-modal{padding:0!important}
-  .breakfast-dialog{width:100%!important;height:96vh!important;border-radius:10px!important}
+  .breakfast-modal{padding:4px!important}
+  .breakfast-dialog{width:100%!important;max-width:100%!important;height:calc(100% - 8px)!important;max-height:none!important;border-radius:10px!important}
   .breakfast-modal-head{padding:9px 10px!important}
-  .breakfast-frame-wrap{min-height:0!important}
+  .breakfast-frame-wrap{min-height:0!important;overflow:hidden!important}
+  .breakfast-frame{width:100%!important;height:100%!important}
 }
 </style>
 </head>
@@ -2348,9 +2347,15 @@ html,body{touch-action:pan-x pan-y pinch-zoom}
 
       function ensureLoaded() {
         if (loaded) return;
+        const finishLoading = () => {
+          loading?.classList.add('is-hidden');
+          if (loading) loading.style.pointerEvents = 'none';
+        };
+        frame.addEventListener('load', finishLoading, { once:true });
         frame.srcdoc = decodeBreakfastHtml();
         loaded = true;
-        frame.addEventListener('load', () => loading?.classList.add('is-hidden'), { once:true });
+        // 일부 모바일 브라우저에서 srcdoc load 이벤트가 누락되는 경우를 대비함.
+        setTimeout(finishLoading, 900);
       }
 
       function openBreakfast() {

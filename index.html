@@ -1172,8 +1172,82 @@
     }
   </style>
 
+
+
+  <style id="contentProtectionStyles">
+    /* ===== 접근 잠금 + 기본 콘텐츠 보호 ===== */
+    html.auth-locked, html.auth-locked body{
+      width:100%; min-height:100%; margin:0; overflow:hidden !important; background:#fff;
+    }
+    html.auth-locked body > *:not(#accessGate){
+      visibility:hidden !important;
+      pointer-events:none !important;
+    }
+    #accessGate{
+      position:fixed; inset:0; z-index:2147483647;
+      display:grid; place-items:center;
+      background:#fff;
+    }
+    #accessGate[hidden]{display:none !important}
+    #accessPassword{
+      width:min(260px,72vw);
+      height:44px;
+      padding:0 13px;
+      border:1px solid #d8dadd;
+      border-radius:0;
+      background:#fff;
+      color:#24292f;
+      font:500 16px/1.2 "Pretendard","Noto Sans KR","Apple SD Gothic Neo","Malgun Gothic",Arial,sans-serif;
+      outline:none;
+      box-shadow:none;
+      -webkit-appearance:none;
+      appearance:none;
+    }
+    #accessPassword:focus{border-color:#8f969d}
+
+    html.content-protected,
+    html.content-protected body,
+    html.content-protected body *:not(input):not(textarea):not(select):not(option){
+      -webkit-user-select:none !important;
+      user-select:none !important;
+      -webkit-touch-callout:none !important;
+    }
+    html.content-protected img,
+    html.content-protected a{
+      -webkit-user-drag:none !important;
+      user-drag:none !important;
+    }
+    html.content-protected input,
+    html.content-protected textarea,
+    html.content-protected select{
+      -webkit-user-select:text !important;
+      user-select:text !important;
+      -webkit-touch-callout:none !important;
+    }
+
+    #captureShield{
+      position:fixed; inset:0; z-index:2147483646;
+      display:none; background:#fff;
+      pointer-events:none;
+    }
+    html.capture-shielded #captureShield{display:block}
+
+    @media print{
+      body > *{display:none !important}
+      #captureShield{display:block !important; position:fixed !important; inset:0 !important; background:#fff !important}
+    }
+  </style>
+
 </head>
 <body>
+
+  <div id="accessGate" aria-label="접근 비밀번호 입력">
+    <form id="accessForm" autocomplete="off">
+      <input id="accessPassword" type="password" inputmode="text" autocomplete="off" autocapitalize="none" spellcheck="false" aria-label="Password" />
+    </form>
+  </div>
+  <div id="captureShield" aria-hidden="true"></div>
+
   <header class="topbar">
     <div class="topbar-inner">
       <div class="brand">
@@ -2233,6 +2307,136 @@
       document.addEventListener('keydown', e => {
         if (e.key === 'Escape' && modal.classList.contains('is-open')) closeBreakfast();
       });
+    })();
+  </script>
+
+
+  <script id="contentProtectionScript">
+    (() => {
+      'use strict';
+
+      const PASSWORD = 'hello2u';
+      const ACCESS_KEY = 'toyu_access_granted_v1';
+      const root = document.documentElement;
+      const gate = document.getElementById('accessGate');
+      const form = document.getElementById('accessForm');
+      const passwordInput = document.getElementById('accessPassword');
+
+      root.classList.add('content-protected');
+
+      function unlock(){
+        try { sessionStorage.setItem(ACCESS_KEY, '1'); } catch (_) {}
+        root.classList.remove('auth-locked');
+        gate.hidden = true;
+        passwordInput.value = '';
+      }
+
+      function lock(){
+        root.classList.add('auth-locked');
+        gate.hidden = false;
+        requestAnimationFrame(() => passwordInput.focus({preventScroll:true}));
+      }
+
+      let alreadyUnlocked = false;
+      try { alreadyUnlocked = sessionStorage.getItem(ACCESS_KEY) === '1'; } catch (_) {}
+      if (alreadyUnlocked) unlock(); else lock();
+
+      form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        if (passwordInput.value === PASSWORD) {
+          unlock();
+        } else {
+          passwordInput.value = '';
+          passwordInput.focus();
+        }
+      });
+
+      // 우클릭 / 길게 누르기 메뉴 / 선택 / 드래그 / 복사 계열 차단
+      ['contextmenu','copy','cut','dragstart','selectstart'].forEach(type => {
+        document.addEventListener(type, (e) => {
+          const t = e.target;
+          const editable = t && (t.matches?.('input, textarea, select, option') || t.isContentEditable);
+          if (type === 'selectstart' && editable) return;
+          if ((type === 'copy' || type === 'cut') && editable) return;
+          e.preventDefault();
+        }, {capture:true});
+      });
+
+      document.addEventListener('mousedown', (e) => {
+        if (e.button === 2) e.preventDefault();
+      }, {capture:true});
+
+      document.addEventListener('keydown', (e) => {
+        const k = String(e.key || '').toLowerCase();
+        const mod = e.ctrlKey || e.metaKey;
+        const blocked =
+          k === 'printscreen' ||
+          (mod && ['c','x','s','p','u'].includes(k)) ||
+          (e.ctrlKey && e.shiftKey && ['i','j','c','s'].includes(k)) ||
+          (e.metaKey && e.shiftKey && ['3','4','5'].includes(k)) ||
+          k === 'f12';
+        if (blocked) {
+          e.preventDefault();
+          e.stopImmediatePropagation();
+        }
+      }, {capture:true});
+
+      // 인쇄/PDF 출력 시 실제 본문 대신 빈 화면
+      window.addEventListener('beforeprint', () => root.classList.add('capture-shielded'));
+      window.addEventListener('afterprint', () => root.classList.remove('capture-shielded'));
+
+      // 페이지가 비활성화되면 순간적으로 본문을 가림(일부 캡처/전환 상황 보조)
+      document.addEventListener('visibilitychange', () => {
+        root.classList.toggle('capture-shielded', document.hidden);
+      });
+
+      // srcdoc iframe(조식 리딩연습)에도 동일한 우클릭/드래그/복사 차단 적용
+      function protectFrame(frame){
+        try {
+          const doc = frame.contentDocument;
+          if (!doc || doc.__toyuProtected) return;
+          doc.__toyuProtected = true;
+          const style = doc.createElement('style');
+          style.textContent = `
+            html,body,body *:not(input):not(textarea):not(select):not(option){
+              -webkit-user-select:none!important;user-select:none!important;-webkit-touch-callout:none!important;
+            }
+            img,a{-webkit-user-drag:none!important;user-drag:none!important}
+            input,textarea,select{-webkit-user-select:text!important;user-select:text!important;-webkit-touch-callout:none!important}
+            @media print{body{display:none!important}}
+          `;
+          doc.head?.appendChild(style);
+          ['contextmenu','copy','cut','dragstart','selectstart'].forEach(type => {
+            doc.addEventListener(type, ev => {
+              const t = ev.target;
+              const editable = t && (t.matches?.('input, textarea, select, option') || t.isContentEditable);
+              if (type === 'selectstart' && editable) return;
+              if ((type === 'copy' || type === 'cut') && editable) return;
+              ev.preventDefault();
+            }, {capture:true});
+          });
+          doc.addEventListener('keydown', ev => {
+            const k = String(ev.key || '').toLowerCase();
+            const mod = ev.ctrlKey || ev.metaKey;
+            if (k === 'printscreen' || (mod && ['c','x','s','p','u'].includes(k)) || (ev.ctrlKey && ev.shiftKey && ['i','j','c','s'].includes(k)) || (ev.metaKey && ev.shiftKey && ['3','4','5'].includes(k)) || k === 'f12') {
+              ev.preventDefault(); ev.stopImmediatePropagation();
+            }
+          }, {capture:true});
+        } catch (_) {}
+      }
+
+      document.querySelectorAll('iframe').forEach(frame => {
+        frame.addEventListener('load', () => protectFrame(frame));
+        protectFrame(frame);
+      });
+
+      const observer = new MutationObserver(() => {
+        document.querySelectorAll('iframe').forEach(frame => {
+          frame.addEventListener('load', () => protectFrame(frame), {once:false});
+          protectFrame(frame);
+        });
+      });
+      observer.observe(document.documentElement, {childList:true, subtree:true});
     })();
   </script>
 

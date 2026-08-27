@@ -1,6 +1,6 @@
 <!doctype html>
 <!-- TOYU realtime-sync edition · PC/mobile shared storage via Supabase -->
-<html lang="ko" class="auth-locked content-protected">
+<html lang="ko" class="content-protected">
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, minimum-scale=0.75, user-scalable=yes" />
   <title>TOYU Training Report | 토유 신규 근무자 직무교육 통합 보고 (김은진)</title>
@@ -1300,7 +1300,7 @@
 </head>
 <body>
 
-  <div id="accessGate" aria-label="접근 비밀번호 입력">
+  <div id="accessGate" hidden aria-label="접근 비밀번호 입력">
     <div class="access-gate-stack">
       <form id="accessForm" autocomplete="off">
         <input id="accessPassword" type="password" inputmode="text" autocomplete="off" autocapitalize="none" spellcheck="false" aria-label="Password" />
@@ -2007,7 +2007,7 @@
             <p class="section-lead">오픈조 출근 직후 건물·레스토랑을 여는 순서부터 블렌딩 티와 조식 준비, 연박 객실 확인, 퇴근 전 마감 보고까지 실제 근무 흐름에 맞춰 정리.</p>
           </div>
           <div class="mini-meta">
-            <div class="meta-row"><span>교육담당</span><b><span class="action-required">교육담당자 확인 필요</span></b></div>
+            <div class="meta-row"><span>교육담당</span><b>지배인 · 최주임</b></div>
             <div class="meta-row"><span>핵심 주제</span><b>오픈 루틴 / 조식 준비</b></div>
             <div class="meta-row"><span>마감</span><b>오픈조 업무 12단계</b></div>
           </div>
@@ -2584,8 +2584,8 @@
         requestAnimationFrame(() => passwordInput.focus({preventScroll:true}));
       }
 
-      // 페이지를 열거나 새로고침할 때마다 항상 비밀번호 화면부터 시작함.
-      lock();
+      // 비밀번호 없는 배포용: 페이지를 열면 본문을 바로 표시함.
+      unlock();
 
       breakfastShortcut?.addEventListener('click',()=>{
         // 조식리딩 연습은 본문 접근 암호와 별도로 바로 열림. 닫으면 다시 비밀번호 화면으로 돌아감.

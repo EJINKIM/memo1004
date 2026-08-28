@@ -1,6 +1,6 @@
 <!doctype html>
 <!-- TOYU realtime-sync edition · PC/mobile shared storage via Supabase -->
-<html lang="ko" class="content-protected">
+<html lang="ko" class="auth-locked content-protected">
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, minimum-scale=0.75, user-scalable=yes" />
   <title>TOYU Training Report | 토유 신규 근무자 직무교육 통합 보고 (김은진)</title>
@@ -1300,7 +1300,7 @@
 </head>
 <body>
 
-  <div id="accessGate" hidden aria-label="접근 비밀번호 입력">
+  <div id="accessGate" aria-label="접근 비밀번호 입력">
     <div class="access-gate-stack">
       <form id="accessForm" autocomplete="off">
         <input id="accessPassword" type="password" inputmode="text" autocomplete="off" autocapitalize="none" spellcheck="false" aria-label="Password" />
@@ -2584,8 +2584,8 @@
         requestAnimationFrame(() => passwordInput.focus({preventScroll:true}));
       }
 
-      // 비밀번호 없는 배포용: 페이지를 열면 본문을 바로 표시함.
-      unlock();
+      // 페이지를 열거나 새로고침할 때마다 항상 비밀번호 화면부터 시작함.
+      lock();
 
       breakfastShortcut?.addEventListener('click',()=>{
         // 조식리딩 연습은 본문 접근 암호와 별도로 바로 열림. 닫으면 다시 비밀번호 화면으로 돌아감.

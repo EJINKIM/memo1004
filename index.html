@@ -1008,14 +1008,16 @@
   <style>
     /* ===== 조식 리딩연습 · 고정 버튼 + 실사용 팝업 ===== */
     .quick-nav-btn.breakfast-reader{
-      min-width:138px;
+      min-width:184px;
+      height:52px;
       border-radius:999px;
       border:1px solid #e5cfd7;
       background:linear-gradient(135deg,#fff0f4 0%,#fff8df 52%,#edf6ef 100%);
       color:#514b50;
-      box-shadow:0 8px 22px rgba(80,68,73,.10);
+      box-shadow:0 10px 26px rgba(80,68,73,.12);
+      font-size:13px;
       font-weight:850;
-      padding:0 16px;
+      padding:0 21px;
     }
     .quick-nav-btn.breakfast-reader:hover{
       background:linear-gradient(135deg,#ffe9f0 0%,#fff3cd 52%,#e6f2e9 100%);
@@ -1023,15 +1025,40 @@
       box-shadow:0 10px 26px rgba(80,68,73,.16);
     }
     .breakfast-reader-icon{
-      width:25px;height:25px;
+      width:30px;height:30px;
       border-radius:50%;
       display:inline-grid;
       place-items:center;
       background:rgba(255,255,255,.78);
       box-shadow:inset 0 0 0 1px rgba(120,100,108,.10);
-      font-size:14px;
+      font-size:16px;
       line-height:1;
       flex:0 0 auto;
+    }
+
+    .quick-nav-btn.moon-link{
+      min-width:52px;
+      width:52px;
+      height:52px;
+      padding:0;
+      border-radius:50%;
+      border:1px solid #d9d1e6;
+      background:linear-gradient(145deg,#f6f1fb 0%,#ece7f6 52%,#e8eef8 100%);
+      color:#5f5870;
+      box-shadow:0 10px 26px rgba(78,69,96,.12);
+      text-decoration:none;
+      font-size:25px;
+      line-height:1;
+    }
+    .quick-nav-btn.moon-link:hover{
+      background:linear-gradient(145deg,#f1e9fa 0%,#e7e0f3 52%,#e1e9f6 100%);
+      border-color:#c9bedb;
+      box-shadow:0 12px 28px rgba(78,69,96,.17);
+    }
+    .moon-link-icon{
+      display:block;
+      transform:translateY(-1px);
+      font-family:Georgia,"Times New Roman",serif;
     }
 
     .breakfast-modal{
@@ -1155,9 +1182,16 @@
         max-width:calc(100vw - 24px);
       }
       .quick-nav-btn.breakfast-reader{
-        min-width:126px;
-        height:40px;
-        padding:0 13px;
+        min-width:158px;
+        height:46px;
+        padding:0 16px;
+        font-size:12px;
+      }
+      .quick-nav-btn.moon-link{
+        min-width:46px;
+        width:46px;
+        height:46px;
+        font-size:22px;
       }
       .breakfast-modal{padding:7px}
       .breakfast-dialog{
@@ -2130,6 +2164,9 @@
     <button class="quick-nav-btn breakfast-reader" type="button" data-breakfast-open aria-haspopup="dialog">
       <span class="breakfast-reader-icon">🍳</span><span>조식 리딩연습</span>
     </button>
+    <a class="quick-nav-btn moon-link" href="https://ejinkim.github.io/2unote/" target="_blank" rel="noopener noreferrer" aria-label="TOYU 2U NOTE 열기" title="TOYU 2U NOTE">
+      <span class="moon-link-icon" aria-hidden="true">☾</span>
+    </a>
     <button class="quick-nav-btn toc" type="button" data-toc-open aria-haspopup="dialog"><span class="quick-nav-icon">☰</span>목차</button>
     <button class="quick-nav-btn top" type="button" data-scroll-top><span class="quick-nav-icon">↑</span>맨위로</button>
   </nav>

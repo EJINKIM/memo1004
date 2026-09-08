@@ -1008,16 +1008,14 @@
   <style>
     /* ===== 조식 리딩연습 · 고정 버튼 + 실사용 팝업 ===== */
     .quick-nav-btn.breakfast-reader{
-      min-width:184px;
-      height:52px;
+      min-width:138px;
       border-radius:999px;
       border:1px solid #e5cfd7;
       background:linear-gradient(135deg,#fff0f4 0%,#fff8df 52%,#edf6ef 100%);
       color:#514b50;
-      box-shadow:0 10px 26px rgba(80,68,73,.12);
-      font-size:13px;
+      box-shadow:0 8px 22px rgba(80,68,73,.10);
       font-weight:850;
-      padding:0 21px;
+      padding:0 16px;
     }
     .quick-nav-btn.breakfast-reader:hover{
       background:linear-gradient(135deg,#ffe9f0 0%,#fff3cd 52%,#e6f2e9 100%);
@@ -1025,40 +1023,15 @@
       box-shadow:0 10px 26px rgba(80,68,73,.16);
     }
     .breakfast-reader-icon{
-      width:30px;height:30px;
+      width:25px;height:25px;
       border-radius:50%;
       display:inline-grid;
       place-items:center;
       background:rgba(255,255,255,.78);
       box-shadow:inset 0 0 0 1px rgba(120,100,108,.10);
-      font-size:16px;
+      font-size:14px;
       line-height:1;
       flex:0 0 auto;
-    }
-
-    .quick-nav-btn.moon-link{
-      min-width:52px;
-      width:52px;
-      height:52px;
-      padding:0;
-      border-radius:50%;
-      border:1px solid #d9d1e6;
-      background:linear-gradient(145deg,#f6f1fb 0%,#ece7f6 52%,#e8eef8 100%);
-      color:#5f5870;
-      box-shadow:0 10px 26px rgba(78,69,96,.12);
-      text-decoration:none;
-      font-size:25px;
-      line-height:1;
-    }
-    .quick-nav-btn.moon-link:hover{
-      background:linear-gradient(145deg,#f1e9fa 0%,#e7e0f3 52%,#e1e9f6 100%);
-      border-color:#c9bedb;
-      box-shadow:0 12px 28px rgba(78,69,96,.17);
-    }
-    .moon-link-icon{
-      display:block;
-      transform:translateY(-1px);
-      font-family:Georgia,"Times New Roman",serif;
     }
 
     .breakfast-modal{
@@ -1182,16 +1155,9 @@
         max-width:calc(100vw - 24px);
       }
       .quick-nav-btn.breakfast-reader{
-        min-width:158px;
-        height:46px;
-        padding:0 16px;
-        font-size:12px;
-      }
-      .quick-nav-btn.moon-link{
-        min-width:46px;
-        width:46px;
-        height:46px;
-        font-size:22px;
+        min-width:126px;
+        height:40px;
+        padding:0 13px;
       }
       .breakfast-modal{padding:7px}
       .breakfast-dialog{
@@ -1249,12 +1215,67 @@
     }
     #accessPassword:focus{border-color:#8f969d}
     .access-gate-stack{display:flex;flex-direction:column;align-items:center;justify-content:center}
-    #breakfastShortcut{
-      margin-top:22px;width:31px;height:31px;border:0;background:transparent;color:#a8adb0;
-      opacity:.30;filter:grayscale(1);font-size:15px;cursor:pointer;border-radius:50%;padding:0;
-      transition:opacity .18s ease,background .18s ease,transform .18s ease
+    .access-shortcut-row{
+      margin-top:22px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:9px;
     }
-    #breakfastShortcut:hover,#breakfastShortcut:focus{opacity:.62;background:#f5f5f3;transform:translateY(-1px);outline:none}
+    #breakfastShortcut{
+      min-width:172px;
+      height:46px;
+      padding:0 18px;
+      border:1px solid #e4d6da;
+      background:linear-gradient(135deg,#fff1f5 0%,#fff8e3 52%,#edf6f0 100%);
+      color:#5a5257;
+      box-shadow:0 8px 22px rgba(80,68,73,.09);
+      font:800 12px/1 "Pretendard","Noto Sans KR","Apple SD Gothic Neo","Malgun Gothic",Arial,sans-serif;
+      letter-spacing:-.02em;
+      cursor:pointer;
+      border-radius:999px;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:8px;
+      transition:transform .18s ease,background .18s ease,border-color .18s ease,box-shadow .18s ease;
+    }
+    #breakfastShortcut[hidden]{display:none!important}
+    #breakfastShortcut .shortcut-breakfast-icon{font-size:17px;line-height:1}
+    #breakfastShortcut:hover,#breakfastShortcut:focus{
+      background:linear-gradient(135deg,#ffeaf0 0%,#fff3d4 52%,#e6f2ea 100%);
+      border-color:#d8c5cc;
+      box-shadow:0 10px 25px rgba(80,68,73,.13);
+      transform:translateY(-1px);
+      outline:none;
+    }
+    #moonShortcut{
+      width:46px;
+      height:46px;
+      flex:0 0 46px;
+      border:1px solid #d9d1e6;
+      background:linear-gradient(145deg,#f7f2fb 0%,#eee9f7 52%,#e8eef8 100%);
+      color:#625a73;
+      box-shadow:0 8px 22px rgba(78,69,96,.09);
+      border-radius:50%;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      text-decoration:none;
+      font:400 24px/1 Georgia,"Times New Roman",serif;
+      transition:transform .18s ease,background .18s ease,border-color .18s ease,box-shadow .18s ease;
+    }
+    #moonShortcut:hover,#moonShortcut:focus{
+      background:linear-gradient(145deg,#f1eafa 0%,#e8e2f4 52%,#e2eaf7 100%);
+      border-color:#c9bedb;
+      box-shadow:0 10px 25px rgba(78,69,96,.14);
+      transform:translateY(-1px);
+      outline:none;
+    }
+    @media(max-width:480px){
+      #breakfastShortcut{min-width:158px;height:44px;padding:0 15px;font-size:11.5px}
+      #moonShortcut{width:44px;height:44px;flex-basis:44px;font-size:22px}
+    }
     #breakfastShortcutLoading{
       margin-top:18px;min-width:220px;padding:12px 16px;border:1px solid #eceeed;background:#fff;color:#727a75;
       font-size:11px;font-weight:800;text-align:center;letter-spacing:-.01em;box-shadow:0 8px 24px rgba(30,40,35,.06)
@@ -1340,7 +1361,12 @@
         <input id="accessPassword" type="password" inputmode="text" autocomplete="off" autocapitalize="none" spellcheck="false" aria-label="Password" />
         <button id="passwordEye" type="button" aria-label="암호 표시 전환">👁</button>
       </form>
-      <button id="breakfastShortcut" type="button" aria-label="조식 리딩 연습 바로가기" title="조식 리딩 연습 바로가기">🍴</button>
+      <div class="access-shortcut-row" aria-label="빠른 바로가기">
+        <button id="breakfastShortcut" type="button" aria-label="조식 리딩 연습 바로가기" title="조식 리딩 연습 바로가기">
+          <span class="shortcut-breakfast-icon" aria-hidden="true">🍴</span><span>조식 리딩 연습</span>
+        </button>
+        <a id="moonShortcut" href="https://ejinkim.github.io/2unote/" target="_blank" rel="noopener noreferrer" aria-label="2U NOTE 열기" title="2U NOTE">☾</a>
+      </div>
       <div id="breakfastShortcutLoading" hidden><span class="shortcut-spinner"></span>조식 리딩 연습으로 넘어갑니다.</div>
     </div>
   </div>
@@ -2164,9 +2190,6 @@
     <button class="quick-nav-btn breakfast-reader" type="button" data-breakfast-open aria-haspopup="dialog">
       <span class="breakfast-reader-icon">🍳</span><span>조식 리딩연습</span>
     </button>
-    <a class="quick-nav-btn moon-link" href="https://ejinkim.github.io/2unote/" target="_blank" rel="noopener noreferrer" aria-label="TOYU 2U NOTE 열기" title="TOYU 2U NOTE">
-      <span class="moon-link-icon" aria-hidden="true">☾</span>
-    </a>
     <button class="quick-nav-btn toc" type="button" data-toc-open aria-haspopup="dialog"><span class="quick-nav-icon">☰</span>목차</button>
     <button class="quick-nav-btn top" type="button" data-scroll-top><span class="quick-nav-icon">↑</span>맨위로</button>
   </nav>
